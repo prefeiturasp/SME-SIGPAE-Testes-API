@@ -1,22 +1,53 @@
+import { defineConfig } from 'cypress'
+import cypressPlugin from 'eslint-plugin-cypress'
+import globals from 'globals'
+
 export default [
-    {
-      files: ["**/**/*.js"],
-      ignores: [
-        "node_modules/",
-        "cypress/videos/",
-        "cypress/screenshots/"
-      ],
-      languageOptions: {
-        ecmaVersion: 2021,
-        sourceType: "module",
-        globals: {
-          Cypress: "readonly",
-          cy: "readonly",
-          expect: "readonly",
-          assert: "readonly",
-        }
-      },
-      plugins: {},
-      rules: {}
+  {
+    ignores: ['node_modules/**', 'eslint.config.js']
+  },
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021
+      }
+    },
+    plugins: {
+      cypress: cypressPlugin
+    },
+    rules: {
+      indent: ['error', 'tab'],
+      'linebreak-style': ['error', 'windows'],
+      quotes: ['error', 'single'],
+      semi: ['error', 'never'],
+      'no-console': 'warn'
     }
-  ];
+  },
+  {
+    files: ['cypress/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+        'cy': true,
+        'Cypress': true
+      }
+    }
+  },
+  {
+    files: ['cypress.config.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        'require': true,
+        'module': true
+      }
+    }
+  }
+]
