@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint cypress/**/**/*.js --fix",
+    "lint:debug": "eslint --debug cypress/**/**/*.js"
+  },
+  "devDependencies": {
+    "cypress": "^13.16.0",
+    "eslint": "^9.16.0",
+    "eslint-plugin-cypress": "^4.1.0"
+  }
+}
