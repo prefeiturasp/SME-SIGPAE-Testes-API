@@ -1,4 +1,3 @@
-import { defineConfig } from 'cypress'
 import cypressPlugin from 'eslint-plugin-cypress'
 import globals from 'globals'
 
