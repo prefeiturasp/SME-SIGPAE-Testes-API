@@ -4,7 +4,9 @@
 - Este projeto visa automatizar API e Front de forma a facilitar a validação de itens de forma regressiva.
 - Ele contém os casos de teste do SIGPAE.
 
-![Descrição da imagem](./cypress/fixtures/images/image_sigpae.jpg)
+<div align="center">
+  <img src="./cypress/fixtures/images/image_sigpae.jpg" alt="Descrição da imagem" width="300">
+</div>
 
 ## **Tecnologias Usadas**
 
