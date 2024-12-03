@@ -4,11 +4,11 @@
 - Este projeto visa automatizar API e Front de forma a facilitar a validação de itens de forma regressiva.
 - Ele contém os casos de teste do SIGPAE.
 
-![alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Fsigpae.sme.prefeitura.sp.gov.br%2F&psig=AOvVaw0mJJpmiMnixZOMXzTE4Tw_&ust=1733260005453000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCIyO3-iYoDFQAAAAAdAAAAABAQ)
+![Descrição da imagem](./cypress/fixtures/images/image_sigpae.jpg)
 
 ## **Tecnologias Usadas**
 
-![JavaScript](https://img.shields.io/badge/-Javascript-yellow) ![Cypress](https://img.shields.io/badge/-Cypress-white)
+![JavaScript](https://img.shields.io/badge/-Javascript-yellow) ![Cypress](https://img.shields.io/badge/-Cypress-white) ![ESLint](https://img.shields.io/badge/-ESLint-%234B32C3)
 
 ## **Pré-requisitos**
 

@@ -20,10 +20,7 @@ describe("Validar rotas de alimentos da aplicação SIGPAE", () => {
 				expect(lista).to.have.property("outras_informacoes").that.is.a("string");
 				expect(lista).to.have.property("tipo_listagem_protocolo").that.equals("SO_ALIMENTOS");
 				expect(lista).to.have.property("uuid").that.is.a("string").and.have.length.greaterThan(0);
-		
-				if (lista.id === 489) {
-				  expect(lista.nome).to.eq("ABACATE");
-				}
+				expect(lista.nome).to.eq("ABACATE");
 			})
 		})
 	})
