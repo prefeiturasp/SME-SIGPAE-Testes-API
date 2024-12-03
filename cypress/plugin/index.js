@@ -1,4 +1,3 @@
-export default (on, config) => {
+module.exports = (on, config) => {
 	return config
-  }
-  
+}
