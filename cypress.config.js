@@ -3,7 +3,7 @@ const { defineConfig } = require('cypress')
 module.exports = defineConfig({
 	e2e: {
 		setupNodeEvents(on, config) {
-			require ('./cypress/plugin/index.js')(on, config)
+			require('./cypress/plugin/index.js')(on, config)
 			return config
 		},
 		baseApiUrl: 'https://hom-sigpae.sme.prefeitura.sp.gov.br/',
@@ -16,6 +16,6 @@ module.exports = defineConfig({
 		chromeWebSecurity: false,
 		experimentalRunAllSpecs: true,
 		failOnStatusCode: false,
-		specPattern: 'cypress/e2e/**/**/*.{feature,cy.{js,jsx,ts,tsx}}'
-	}
+		specPattern: 'cypress/e2e/**/**/*.{feature,cy.{js,jsx,ts,tsx}}',
+	},
 })

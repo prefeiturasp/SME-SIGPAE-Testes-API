@@ -5,7 +5,8 @@ Cypress.Commands.add('validar_alimentos', (id) => {
 		method: 'GET',
 		url: Cypress.config('baseApiUrl') + `api/alimentos/${id}`,
 		headers: {
-			'Authorization': 'JWT ' + globalThis.token,
+			Authorization: 'JWT ' + globalThis.token,
 		},
+		failOnStatusCode: false,
 	})
 })
