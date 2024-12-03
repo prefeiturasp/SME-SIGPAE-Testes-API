@@ -27,7 +27,8 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "no-console": "warn"
     },
     "plugins": [
         "cypress"

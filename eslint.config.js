@@ -1,6 +1,6 @@
 export default [
     {
-      files: ["cypress/**/**/*.js"],
+      files: ["**/**/*.js"],
       ignores: [
         "node_modules/",
         "cypress/videos/",
