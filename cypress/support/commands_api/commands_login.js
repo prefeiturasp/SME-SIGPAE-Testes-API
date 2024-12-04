@@ -6,9 +6,10 @@ Cypress.Commands.add('autenticar_login', (usuario, senha) => {
 		url: Cypress.config('baseApiUrl') + 'api/login/',
 		body: {
 			login: usuario,
-			password: senha
+			password: senha,
 		},
 	}).then((responseUserToken) => {
-		globalThis.token = responseUserToken.allRequestResponses[0]['Response Body'].access
+		globalThis.token =
+			responseUserToken.allRequestResponses[0]['Response Body'].access
 	})
 })
