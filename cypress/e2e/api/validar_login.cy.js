@@ -1,7 +1,7 @@
 /// <reference types='cypress' />
 
 describe('Validar rotas de login da aplicação SIGPAE', () => {
-	context('Rotas de Login', () => {
+	context('Casos de teste para a rota api/login/', () => {
 		it('Validar login realizado com sucesso', () => {
 			var usuario = Cypress.config('usuario')
 			var senha = Cypress.config('senha')

@@ -7,7 +7,7 @@ describe('Validar rotas de alimentos da aplicação SIGPAE', () => {
 		cy.autenticar_login(usuario, senha)
 	})
 
-	context('Casos de teste para as rotas de aalimentos', () => {
+	context('Casos de teste para a rota api/alimentos/', () => {
 		it('Validar GET de todos os alimentos do tipo Edital com sucesso', () => {
 			var id = '?tipo=E'
 			cy.validar_alimentos(id).then((response) => {
@@ -80,6 +80,34 @@ describe('Validar rotas de alimentos da aplicação SIGPAE', () => {
 				)
 			})
 		})
+	})
+
+	context('Casos de teste para a rota api/alimentos/id/', () => {
+		it('Validar GET com parametro unico valido com sucesso', () => {
+			var id = '489/'
+			cy.validar_alimentos(id).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.all.keys(
+					'ativo',
+					'id',
+					'marca',
+					'nome',
+					'outras_informacoes',
+					'tipo',
+					'tipo_listagem_protocolo',
+					'uuid',
+				)
+				expect(response.body.ativo).to.eq(true)
+				expect(response.body.id).to.eq(489)
+				expect(response.body.marca).to.be.null
+				expect(response.body.nome).to.eq('ABACATE')
+				expect(response.body.outras_informacoes).to.eq('')
+				expect(response.body.tipo).to.eq('E')
+				expect(response.body.tipo_listagem_protocolo).to.eq('SO_ALIMENTOS')
+				expect(response.body.uuid).to.eq('b48dc997-2cbd-4c10-9766-711f41637922')
+			})
+		})
+
 		it('Validar GET com parametro numerico invalido de alimento', () => {
 			var id = '54'
 			cy.validar_alimentos(id).then((response) => {
