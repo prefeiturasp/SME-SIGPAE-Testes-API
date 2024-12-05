@@ -10,3 +10,31 @@ Cypress.Commands.add('validar_alimentos_da_guia', (id) => {
 		failOnStatusCode: false,
 	})
 })
+
+Cypress.Commands.add('cadastrar_alimentos_da_guia', (alimento) => {
+	cy.request({
+		method: 'POST',
+		url: Cypress.config('baseApiUrl') + 'api/alimentos-da-guia/',
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		body: {
+			codigo_suprimento: alimento.codigo_suprimento,
+			codigo_papa: alimento.codigo_papa,
+			nome_alimento: alimento.nome_alimento,
+			guia: alimento.guia
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('excluir_alimentos_da_guia', (id) => {
+	cy.request({
+		method: 'DELETE',
+		url: Cypress.config('baseApiUrl') + `api/alimentos-da-guia/${id}/`,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})

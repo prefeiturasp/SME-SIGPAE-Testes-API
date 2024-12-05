@@ -26,6 +26,7 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				expect(primeiro_resultado).to.have.property('guia').that.exist
 				expect(primeiro_resultado).to.have.property('nome_alimento').that.exist
 				expect(primeiro_resultado).to.have.property('uuid').that.exist
+				cy.log(response)
 			})
 		})
 
@@ -123,5 +124,56 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 			})
 		})
 
+	})
+
+	context('Casos de teste para a rota api/alimentos-da-guia/ POST', () => {
+		it('Validar Post cadastro de alimento da guia com sucesso', () => {
+			var alimento = {
+				codigo_suprimento: 'teste automatizado',
+				codigo_papa: 't a',
+				nome_alimento: 'Teste Batatinha',
+				guia: 8159
+			}
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				expect(response.status).to.eq(201)
+				expect(response.body).to.have.property('alterado_em').that.exist
+				expect(response.body.codigo_papa).to.eq('t a')
+				expect(response.body.codigo_suprimento).to.eq('teste automatizado')
+				expect(response.body).to.have.property('criado_em').that.exist
+				expect(response.body.guia).to.eq(8159)
+				expect(response.body).to.have.property('uuid').that.exist
+				id = response.body.uuid
+				cy.excluir_alimentos_da_guia(id)
+			})
+		})
+	})
+
+	context('Casos de teste para a rota api/alimentos-da-guia/id/ DELETE', () => {
+		it('Validar Delete com id de um unico alimento da guia com sucesso', () => {
+			var alimento = {
+				codigo_suprimento: 'teste automatizado',
+				codigo_papa: 't a',
+				nome_alimento: 'Teste Batatinha',
+				guia: 8159
+			}
+			cy.cadastrar_alimentos_da_guia(alimento).then((response_id) => {
+				id = response_id.body.uuid
+				cy.excluir_alimentos_da_guia(id).then((response) => {
+					expect(response.status).to.eq(204)
+				})
+			})
+		})
+		it('Validar Delete sem o id informado', () => {
+			id = ''
+			cy.excluir_alimentos_da_guia(id).then((response) => {
+				expect(response.status).to.eq(405)
+			})
+		})
+		it('Validar Delete com id inexistente', () => {
+			id = '5e141551-d242-482c-b74a-64e7e7efeb24'
+			cy.excluir_alimentos_da_guia(id).then((response) => {
+				expect(response.status).to.eq(404)
+			})
+		})
 	})
 })
