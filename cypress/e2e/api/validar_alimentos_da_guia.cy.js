@@ -146,6 +146,30 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				cy.excluir_alimentos_da_guia(id)
 			})
 		})
+		it('Validar Post cadastro com codigo do suprimento com mais de 100 caracteres', () => {
+			var alimento = {
+				codigo_suprimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+				codigo_papa: 't a',
+				nome_alimento: 'Teste Batatinha',
+				guia: 8159
+			}
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.body.codigo_suprimento[0]).contains('Certifique-se de que este campo não tenha mais de 100 caracteres.')
+			})
+		})
+		it('Validar Post cadastro com codigo do suprimento com mais de 100 caracteres', () => {
+			var alimento = {
+				codigo_suprimento: '1010101010',
+				codigo_papa: 't a',
+				nome_alimento: 'Teste Batatinha',
+				guia: 8159
+			}
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				id = response.body.uuid
+				cy.excluir_alimentos_da_guia(id)
+			})
+		})
 	})
 
 	context('Casos de teste para a rota api/alimentos-da-guia/id/ DELETE', () => {
