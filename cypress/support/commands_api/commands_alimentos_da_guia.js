@@ -38,3 +38,20 @@ Cypress.Commands.add('excluir_alimentos_da_guia', (id) => {
 		failOnStatusCode: false,
 	})
 })
+
+Cypress.Commands.add('alterar_alimentos_da_guia', (id,alimento_alterado) => {
+	cy.request({
+		method: 'PUT',
+		url: Cypress.config('baseApiUrl') + `api/alimentos-da-guia/${id}/`,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		body: {
+			codigo_suprimento: alimento_alterado.codigo_suprimento,
+			codigo_papa: alimento_alterado.codigo_papa,
+			nome_alimento: alimento_alterado.nome_alimento,
+			guia: alimento_alterado.guia
+		},
+		failOnStatusCode: false,
+	})
+})
