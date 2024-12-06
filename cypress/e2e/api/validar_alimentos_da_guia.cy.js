@@ -26,7 +26,6 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				expect(primeiro_resultado).to.have.property('guia').that.exist
 				expect(primeiro_resultado).to.have.property('nome_alimento').that.exist
 				expect(primeiro_resultado).to.have.property('uuid').that.exist
-				cy.log(response)
 			})
 		})
 
@@ -349,6 +348,134 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					expect(response_alteracao.body.guia[0]).to.eq('Pk inválido "1" - objeto não existe.')
 					cy.excluir_alimentos_da_guia(id)
 				})
+			})
+		})
+	})
+
+	context('Casos de teste para a rota api/alimentos-da-guia/id PATCH', () => {
+		var alimento = {
+			codigo_suprimento: 'teste automatizado',
+			codigo_papa: 't a',
+			nome_alimento: 'Teste Batatinha',
+			guia: 8159
+		}
+		it('Validar Patch alterar todos os itens de alimento da guia com sucesso', () => {
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				id = response.body.uuid
+				var alimento_alterado = {
+					codigo_suprimento: 'Alteracao automatizado',
+					codigo_papa: 'a a',
+					nome_alimento: 'Teste Batatinha Alteracao',
+					guia: 8160
+				}
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
+					expect(response_alteracao.status).to.eq(200)
+					expect(response_alteracao.body).to.have.property('alterado_em').that.exist
+					expect(response_alteracao.body.codigo_papa).to.eq('a a')
+					expect(response_alteracao.body.codigo_suprimento).to.eq('Alteracao automatizado')
+					expect(response_alteracao.body).to.have.property('criado_em').that.exist
+					expect(response_alteracao.body.nome_alimento).to.eq('Teste Batatinha Alteracao')
+					expect(response_alteracao.body.guia).to.eq(8160)
+					expect(response_alteracao.body).to.have.property('uuid').that.exist
+					id = response_alteracao.body.uuid
+					cy.excluir_alimentos_da_guia(id)
+				})
+			})
+		})
+
+		it('Validar Put cadastro com codigo do suprimento com mais de 100 caracteres', () => {
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				id = response.body.uuid
+				var alimento_alterado = {
+					codigo_suprimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+					codigo_papa: 't a',
+					nome_alimento: 'Teste Batatinha',
+					guia: 8159
+				}
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
+					expect(response_alteracao.status).to.eq(400)
+					expect(response_alteracao.body.codigo_suprimento[0]).contains('Certifique-se de que este campo não tenha mais de 100 caracteres.')
+					cy.excluir_alimentos_da_guia(id)
+				})
+			})
+		})
+
+		it('Validar Put cadastro com codigo do papa com mais de 10 caracteres', () => {
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				id = response.body.uuid
+				var alimento_alterado = {
+					codigo_suprimento: '1010101010',
+					codigo_papa: '12312312312',
+					nome_alimento: 'Teste Batatinha',
+					guia: 8159
+				}
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
+					expect(response_alteracao.status).to.eq(400)
+					expect(response_alteracao.body.codigo_papa[0]).contains('Certifique-se de que este campo não tenha mais de 10 caracteres.')
+					cy.excluir_alimentos_da_guia(id)
+				})
+			})
+		})
+
+		it('Validar Put cadastro com nome alimento com mais de 100 caracteres', () => {
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				id = response.body.uuid
+				var alimento_alterado = {
+					codigo_suprimento: 'teste automatizado',
+					codigo_papa: 't a',
+					nome_alimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+					guia: 8159
+				}
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
+					expect(response_alteracao.status).to.eq(400)
+					expect(response_alteracao.body.nome_alimento[0]).to.eq('Certifique-se de que este campo não tenha mais de 100 caracteres.')
+					cy.excluir_alimentos_da_guia(id)
+				})
+			})
+		})
+
+		it('Validar Put numero guia do tipo string', () => {
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				id = response.body.uuid
+				var alimento_alterado = {
+					codigo_suprimento: 'teste automatizado',
+					codigo_papa: 't a',
+					nome_alimento: 'Teste Batatinha',
+					guia: 'a'
+				}
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
+					expect(response_alteracao.status).to.eq(400)
+					expect(response_alteracao.body.guia[0]).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
+					cy.excluir_alimentos_da_guia(id)
+				})
+			})
+		})
+		it('Validar Put numero guia invalido', () => {
+			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
+				id = response.body.uuid
+				var alimento_alterado = {
+					codigo_suprimento: 'teste automatizado',
+					codigo_papa: 't a',
+					nome_alimento: 'Teste Batatinha',
+					guia: '1'
+				}
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
+					expect(response_alteracao.status).to.eq(400)
+					expect(response_alteracao.body.guia[0]).to.eq('Pk inválido "1" - objeto não existe.')
+					cy.excluir_alimentos_da_guia(id)
+				})
+			})
+		})
+	})
+
+	context('Casos de teste para a rota api/alimentos-da-guia/lista-nomes/ GET', () => {
+		it('Validar GET da lista de nomes de alimentos da guia com sucesso', () => {
+			cy.Validar_lista_de_nomes_alimentos_da_guia().then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results').that.is.an('array').and.not.to.be.empty
+				const primeiroResultado = response.body.results[0]
+				expect(primeiroResultado).to.have.property('nome_alimento').that.exist
+				expect(primeiroResultado).to.have.property('uuid').that.exist
 			})
 		})
 	})

@@ -55,3 +55,31 @@ Cypress.Commands.add('alterar_alimentos_da_guia', (id,alimento_alterado) => {
 		failOnStatusCode: false,
 	})
 })
+
+Cypress.Commands.add('alterar_alimentos_da_guia_patch', (id,alimento_alterado) => {
+	cy.request({
+		method: 'PATCH',
+		url: Cypress.config('baseApiUrl') + `api/alimentos-da-guia/${id}/`,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		body: {
+			codigo_suprimento: alimento_alterado.codigo_suprimento,
+			codigo_papa: alimento_alterado.codigo_papa,
+			nome_alimento: alimento_alterado.nome_alimento,
+			guia: alimento_alterado.guia
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('Validar_lista_de_nomes_alimentos_da_guia', () => {
+	cy.request({
+		method: 'GET',
+		url: Cypress.config('baseApiUrl') + 'api/alimentos-da-guia/lista-nomes/',
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})
