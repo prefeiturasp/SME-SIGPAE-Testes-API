@@ -6,13 +6,14 @@ module.exports = defineConfig({
 			require('./cypress/plugin/index.js')(on, config)
 			return config
 		},
+		baseUrl: 'https://hom-sigpae.sme.prefeitura.sp.gov.br/login',
 		baseApiUrl: 'https://hom-sigpae.sme.prefeitura.sp.gov.br/',
 		usuario_coordenador_logistica: '07206148808',
 		usuario_coordenador_codae_dilog_logistica: '53666852220',
 		senha: 'adminadmin',
 		video: false,
 		videoCompression: 0,
-		retries: 3,
+		retries: 0,
 		screenshotOnRunFailure: true,
 		chromeWebSecurity: false,
 		experimentalRunAllSpecs: true,
