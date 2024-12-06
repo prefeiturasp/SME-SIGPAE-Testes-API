@@ -1,7 +1,7 @@
 /// <reference types='cypress' />
 
 describe('Validar rotas de alergias intolerancias da aplicação SIGPAE', () => {
-	var usuario = Cypress.config('usuario')
+	var usuario = Cypress.config('usuario_coordenador_logistica')
 	var senha = Cypress.config('senha')
 	before(() => {
 		cy.autenticar_login(usuario, senha)

@@ -7,7 +7,8 @@ module.exports = defineConfig({
 			return config
 		},
 		baseApiUrl: 'https://hom-sigpae.sme.prefeitura.sp.gov.br/',
-		usuario: '07206148808',
+		usuario_coordenador_logistica: '07206148808',
+		usuario_coordenador_codae_dilog_logistica: '53666852220',
 		senha: 'adminadmin',
 		video: false,
 		videoCompression: 0,
