@@ -13,7 +13,7 @@ pipeline {
         }
 
         stage('Install') {
-            when { anyOf { branch 'main' } }
+            when { anyOf { branch 'master' } }
             steps { sh 'npm install' }
         }
 
