@@ -1,10 +1,11 @@
 pipeline {
-    agent { node { label 'linux && jdk8' } }
+    agent { label 'linux && jdk8' }
 
     environment {
-        NODE_VERSION = '22.x' 
+        NODE_VERSION = '22.x'
     }
 
+    stages {
         stage('Checkout do Código') {
             steps {
                 checkout scm
