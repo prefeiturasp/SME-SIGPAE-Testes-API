@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'linux && jdk8' }
+    agent { label 'SME-JENKINS-AGENT1' }
 
     environment {
         NODE_VERSION = '22.x'
