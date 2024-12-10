@@ -14,18 +14,23 @@ pipeline {
 
     stages {
         stage('CheckOut') {
-            steps { checkout scm }
+            steps { 
+                checkout scm 
+            }
         }
 
         stage('Instalar Dependências') {
-            steps { sh 'npm install' }
+            steps { 
+                sh 'npm install' 
+            }
         }
 
         stage('Executar Testes Cypress') {
-            steps { sh 'npx cypress run' }
+            steps { 
+                sh 'npx cypress run' 
+            }
         }
 
     }
 
-    }
 }
