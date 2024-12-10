@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'SME-JENKINS-AGENT1' }
+    agent {  node { label 'sme' }  }
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
