@@ -1,46 +1,24 @@
 pipeline {
-    agent any
+    agent { label 'SME-JENKINS-AGENT1' }
 
-    environment {
-        NODE_VERSION = '22.x' 
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
+        disableConcurrentBuilds()
+        skipDefaultCheckout()
     }
 
     stages {
-        stage('Preparar Ambiente') {
-            steps {
-                script {
-                    sh 'curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash -'
-                    sh 'apt-get install -y nodejs'
-                    
-                    sh 'node -v'
-                    sh 'npm -v'
-                }
-            }
+        stage('CheckOut') {
+            steps { checkout scm }
         }
 
-        stage('Checkout do Código') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Instalar Dependências') {
-            steps {
-                sh 'npm install'
-            }
+        stage('Install') {
+            when { anyOf { branch 'main' } }
+            steps { sh 'npm install' }
         }
 
         stage('Executar Testes Cypress') {
-            steps {
-                sh 'npx cypress run'
-            }
-        }
-
-        stage('Arquivar Resultados') {
-            steps {
-                archiveArtifacts artifacts: 'cypress/videos/**/*.mp4,cypress/screenshots/**/*.png,cypress/reports/**/*.json', allowEmptyArchive: true
-            }
+            steps { sh 'npx cypress run' }
         }
     }
-
 }
