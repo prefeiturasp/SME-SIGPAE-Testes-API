@@ -2,7 +2,7 @@ pipeline {
     agent { label 'sme' }
 
     environment {
-        NODE_VERSION = '22' 
+        NODE_VERSION = '22'  // Exemplo, ajuste conforme necessário
     }
 
     options {
@@ -18,20 +18,24 @@ pipeline {
 
         stage('Instalar Node.js e npm') { 
             steps { 
-                sh 'curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash -' 
-                sh 'sudo apt-get install -y nodejs' 
-                sh 'node -v' 
-                sh 'npm -v' 
+                sh '''
+                    #!/bin/bash
+                    curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} -o nodesource_setup.sh
+                    bash nodesource_setup.sh
+                    sudo apt-get install -y nodejs
+                    node -v
+                    npm -v
+                ''' 
             } 
         }
 
-        stage('Install') {
-            when { branch 'master' }
+        stage('Instalar Dependências') {
             steps { sh 'npm install' }
         }
 
         stage('Executar Testes Cypress') {
             steps { sh 'npx cypress run' }
         }
+
     }
 }
