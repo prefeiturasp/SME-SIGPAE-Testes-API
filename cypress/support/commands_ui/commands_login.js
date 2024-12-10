@@ -19,7 +19,14 @@ Cypress.Commands.add('clicar_botao', () => {
 })
 
 Cypress.Commands.add('validar_mensagem', (mensagem) => {
-	cy.get(login_SME_Localizadores.mensagem())
-		.should('be.visible')
-		.and('contain', mensagem)
+	if (mensagem === 'Não foi possível logar no sistema') {
+		cy.get(login_SME_Localizadores.mensagem_erro()).contains(mensagem)
+	} else if (mensagem === 'Campo obrigatório') {
+		cy.get(login_SME_Localizadores.logo_sigpae_login()).click()
+		cy.get(login_SME_Localizadores.mensagem_erro_campo_em_branco()).contains(mensagem)
+	} else {
+		cy.get(login_SME_Localizadores.mensagem())
+			.should('be.visible')
+			.and('contain', mensagem)
+	}
 })

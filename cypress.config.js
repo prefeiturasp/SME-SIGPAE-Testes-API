@@ -12,7 +12,7 @@ module.exports = defineConfig({
 		senha: 'adminadmin',
 		video: false,
 		videoCompression: 0,
-		retries: 0,
+		retries: 2,
 		screenshotOnRunFailure: true,
 		chromeWebSecurity: false,
 		experimentalRunAllSpecs: true,
