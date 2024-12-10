@@ -1,22 +1,9 @@
 pipeline {
-    agent any
+    agent { node { label 'linux && jdk8' } }
 
     environment {
         NODE_VERSION = '22.x' 
     }
-
-    stages {
-        stage('Preparar Ambiente') {
-            steps {
-                script {
-                    sh 'curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash -'
-                    sh 'apt-get install -y nodejs'
-                    
-                    sh 'node -v'
-                    sh 'npm -v'
-                }
-            }
-        }
 
         stage('Checkout do Código') {
             steps {
