@@ -4,7 +4,6 @@ videos/
 node_modules/
 package-lock.json
 .env
-Jenkinsfile
 
 # Others
 tmp

@@ -43,15 +43,4 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            junit 'cypress/reports/*.xml'
-        }
-
-        failure {
-            mail to: 'seu-email@example.com',
-                 subject: "Falha no Build #${env.BUILD_NUMBER}",
-                 body: "Confira os detalhes do build em: ${env.BUILD_URL}"
-        }
-    }
 }
