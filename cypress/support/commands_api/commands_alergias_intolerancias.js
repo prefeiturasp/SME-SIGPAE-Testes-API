@@ -3,7 +3,7 @@
 Cypress.Commands.add('validar_alergias_intolerancias', (id) => {
 	cy.request({
 		method: 'GET',
-		url: Cypress.config('baseApiUrl') + `api/alergias-intolerancias/${id}`,
+		url: Cypress.config('baseUrl') + `api/alergias-intolerancias/${id}`,
 		headers: {
 			Authorization: 'JWT ' + globalThis.token,
 		},

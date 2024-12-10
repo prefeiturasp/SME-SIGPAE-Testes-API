@@ -3,7 +3,7 @@
 Cypress.Commands.add('autenticar_login', (usuario, senha) => {
 	cy.request({
 		method: 'POST',
-		url: Cypress.config('baseApiUrl') + 'api/login/',
+		url: Cypress.config('baseUrl') + 'api/login/',
 		body: {
 			login: usuario,
 			password: senha,

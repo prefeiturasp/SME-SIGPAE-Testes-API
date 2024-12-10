@@ -16,6 +16,6 @@ Quando('clico no botão acessar', function () {
 	cy.clicar_botao()
 })
 
-Entao('o sistema realiza o login e apresenta o usuario {string} com o perfil {string}', function (mensagem) {
+Entao('sistema realiza validacao necessesaria {string} para o cenario {string}', function (mensagem) {
 	cy.validar_mensagem(mensagem)
 })

@@ -3,7 +3,7 @@
 Cypress.Commands.add('validar_alimentos_da_guia', (id) => {
 	cy.request({
 		method: 'GET',
-		url: Cypress.config('baseApiUrl') + `api/alimentos-da-guia/${id}`,
+		url: Cypress.config('baseUrl') + `api/alimentos-da-guia/${id}`,
 		headers: {
 			Authorization: 'JWT ' + globalThis.token,
 		},
@@ -14,7 +14,7 @@ Cypress.Commands.add('validar_alimentos_da_guia', (id) => {
 Cypress.Commands.add('cadastrar_alimentos_da_guia', (alimento) => {
 	cy.request({
 		method: 'POST',
-		url: Cypress.config('baseApiUrl') + 'api/alimentos-da-guia/',
+		url: Cypress.config('baseUrl') + 'api/alimentos-da-guia/',
 		headers: {
 			Authorization: 'JWT ' + globalThis.token,
 		},
@@ -31,7 +31,7 @@ Cypress.Commands.add('cadastrar_alimentos_da_guia', (alimento) => {
 Cypress.Commands.add('excluir_alimentos_da_guia', (id) => {
 	cy.request({
 		method: 'DELETE',
-		url: Cypress.config('baseApiUrl') + `api/alimentos-da-guia/${id}/`,
+		url: Cypress.config('baseUrl') + `api/alimentos-da-guia/${id}/`,
 		headers: {
 			Authorization: 'JWT ' + globalThis.token,
 		},
@@ -42,7 +42,7 @@ Cypress.Commands.add('excluir_alimentos_da_guia', (id) => {
 Cypress.Commands.add('alterar_alimentos_da_guia', (id,alimento_alterado) => {
 	cy.request({
 		method: 'PUT',
-		url: Cypress.config('baseApiUrl') + `api/alimentos-da-guia/${id}/`,
+		url: Cypress.config('baseUrl') + `api/alimentos-da-guia/${id}/`,
 		headers: {
 			Authorization: 'JWT ' + globalThis.token,
 		},
@@ -59,7 +59,7 @@ Cypress.Commands.add('alterar_alimentos_da_guia', (id,alimento_alterado) => {
 Cypress.Commands.add('alterar_alimentos_da_guia_patch', (id,alimento_alterado) => {
 	cy.request({
 		method: 'PATCH',
-		url: Cypress.config('baseApiUrl') + `api/alimentos-da-guia/${id}/`,
+		url: Cypress.config('baseUrl') + `api/alimentos-da-guia/${id}/`,
 		headers: {
 			Authorization: 'JWT ' + globalThis.token,
 		},
@@ -76,7 +76,7 @@ Cypress.Commands.add('alterar_alimentos_da_guia_patch', (id,alimento_alterado) =
 Cypress.Commands.add('Validar_lista_de_nomes_alimentos_da_guia', () => {
 	cy.request({
 		method: 'GET',
-		url: Cypress.config('baseApiUrl') + 'api/alimentos-da-guia/lista-nomes/',
+		url: Cypress.config('baseUrl') + 'api/alimentos-da-guia/lista-nomes/',
 		headers: {
 			Authorization: 'JWT ' + globalThis.token,
 		},
