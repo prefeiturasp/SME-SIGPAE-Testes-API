@@ -1,6 +1,9 @@
 pipeline {
     agent { label 'sme' }
 
+    tools { nodejs "NodeJS 16"
+    }
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
         disableConcurrentBuilds()
