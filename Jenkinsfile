@@ -36,14 +36,21 @@ pipeline {
             }
 
         stage('Instalar Dependências') {
-            steps { sh 'npm install' }
+            agent { label "sme" } // Adiciona um nó para esta etapa
+            steps {
+                sh 'npm install'
+            }
         }
 
         stage('Executar Testes Cypress') {
-            steps { sh 'npx cypress run' }
-        }    
+            agent { label "sme" } // Adiciona um nó para esta etapa
+            steps {
+                sh 'npx cypress run'
+            }
+        }  
 
         stage('Build and Test') {
+            agent { label "sme" } // Adiciona um nó para esta etapa
             steps {
                 sh 'docker build -f Dockerfile . -t sme-sigpae-poc-testes:latest'
                 sh 'docker run --rm sme-sigpae-poc-testes:latest'
