@@ -5,25 +5,51 @@ pipeline {
         skipDefaultCheckout()
     }
 
-agent { label 'SME-JENKINS-AGENT1' }
+    agent {
+        kubernetes {
+            label 'builder'
+            defaultContainer 'builder'
+        }
+    }
 
     stages {
-        stage('Instalar Dependências') {
-            steps { 
-                sh 'npm install' 
-            }
-        }
-
-        stage('Executar Testes Cypress') {
-            steps { 
-                sh 'npx cypress run' 
-            }
-        }
-
-        stage('Build and Test') {
+        stage('Checkout') {
             steps {
-                sh 'docker build -f Dockerfile . -t sme-sigpae-poc-testes:latest'
-                sh 'docker run --rm sme-sigpae-poc-testes:latest'
+                checkout scm
+            }
+        }
+
+        stage('Instalar Dependências') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Verificar Dependências') {
+            steps {
+                sh 'npm audit --production'
+            }
+        }
+
+        parallel {
+            stage('Executar Testes Cypress') {
+                steps {
+                    sh 'npx cypress run --reporter spec'
+                }
+                post {
+                    always {
+                        archiveArtifacts artifacts: 'cypress/screenshots/**/*, cypress/videos/**/*', allowEmptyArchive: true
+                    }
+                }
+            }
+
+            stage('Build Docker') {
+                steps {
+                    script {
+                        sh "docker build -f ./Dockerfile . -t sme-sigpae-poc-testes:latest"
+                        sh "docker run --rm sme-sigpae-poc-testes:latest npx cypress run"
+                    }
+                }
             }
         }
     }
