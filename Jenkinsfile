@@ -5,12 +5,7 @@ pipeline {
         skipDefaultCheckout()
     }
 
-    agent {
-        kubernetes {
-            label 'builder'
-            defaultContainer 'builder'
-        }
-    }
+agent { label 'SME-JENKINS-AGENT1' }
 
     stages {
         stage('Instalar Dependências') {
