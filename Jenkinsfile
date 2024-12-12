@@ -12,6 +12,14 @@ pipeline {
         }
     }
 
+    stage('Instalar Dependências') {
+            steps { sh 'npm install' }
+        }
+
+    stage('Executar Testes Cypress') {
+            steps { sh 'npx cypress run' }
+        }
+
     stages {
         stage('Build and Test') {
             steps {
