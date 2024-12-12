@@ -12,15 +12,19 @@ pipeline {
         }
     }
 
-    stage('Instalar Dependências') {
-            steps { sh 'npm install' }
-        }
-
-    stage('Executar Testes Cypress') {
-            steps { sh 'npx cypress run' }
-        }
-
     stages {
+        stage('Instalar Dependências') {
+            steps { 
+                sh 'npm install' 
+            }
+        }
+
+        stage('Executar Testes Cypress') {
+            steps { 
+                sh 'npx cypress run' 
+            }
+        }
+
         stage('Build and Test') {
             steps {
                 sh 'docker build -f Dockerfile . -t sme-sigpae-poc-testes:latest'
