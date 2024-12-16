@@ -9,6 +9,8 @@ module.exports = defineConfig({
 		baseUrl: 'https://hom-sigpae.sme.prefeitura.sp.gov.br/',
 		usuario_coordenador_logistica: '07206148808',
 		usuario_coordenador_codae_dilog_logistica: '53666852220',
+		usuario_coordenador_supervisao_nutricao: '26088238070',
+		usuario_diretor_ue: '44331733637',
 		senha: 'adminadmin',
 		video: false,
 		timeout: 60000,
