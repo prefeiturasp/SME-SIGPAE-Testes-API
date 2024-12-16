@@ -11,6 +11,7 @@ module.exports = defineConfig({
 		usuario_coordenador_codae_dilog_logistica: '53666852220',
 		senha: 'adminadmin',
 		video: false,
+		timeout: 60000,
 		videoCompression: 0,
 		retries: 2,
 		screenshotOnRunFailure: true,
