@@ -1,4 +1,6 @@
 /// <reference types='cypress' />
+const dayjs = require('dayjs')
+var data_atual = dayjs()
 
 describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 	var usuario = Cypress.config('usuario_coordenador_logistica')
@@ -37,6 +39,432 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 					})
 
 				})
+			})
+		})
+
+		it('Validar POST de alterações cardápio com sucesso', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(201)
+				expect(response.allRequestResponses[0]['Response Body'].motivo).to.eq(dados_teste.motivo)
+				expect(response.allRequestResponses[0]['Response Body'].escola).to.eq(dados_teste.escola)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].periodo_escolar).to.eq(dados_teste.periodo_escolar)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_de[0]).to.eq(dados_teste.tipos_alimentacao_de)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_para[0]).to.eq(dados_teste.tipos_alimentacao_para)
+				expect(response.allRequestResponses[0]['Response Body'].criado_em).to.contains(data_atual.add(0, 'day').format('DD/MM/YYYY'))
+				expect(response.allRequestResponses[0]['Response Body'].data_final).to.contains(data_atual.add(5, 'day').format('DD/MM/YYYY'))
+				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].criado_em).to.contains(data_atual.add(0, 'day').format('DD/MM/YYYY'))
+				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].data).to.eq(data_atual.add(5, 'day').format('DD/MM/YYYY'))
+			})
+		})
+
+		it('Validar POST com motivo em branco', () => {
+			var dados_teste = {
+				motivo: '',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].motivo[0]).to.eq('Este campo não pode ser nulo.')
+			})
+		})
+
+		it('Validar POST com UUID inexistente no campo motivo', () => {
+			var dados_teste = {
+				motivo: '671f5641-ds54-4736-dsa4-7115590b7018',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].motivo[0]).to.eq('O valor “671f5641-ds54-4736-dsa4-7115590b7018” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com escola em branco', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].escola[0]).to.eq('Este campo não pode ser nulo.')
+			})
+		})
+
+		it('Validar POST com UUID inexistente no campo escola', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '1ddec320-dss2-45ds-9666-3e7b3a2b903c',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].escola[0]).to.eq('O valor “1ddec320-dss2-45ds-9666-3e7b3a2b903c” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com periodo escolar em branco', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].periodo_escolar[0]).to.eq('Este campo não pode ser nulo.')
+			})
+		})
+
+		it('Validar POST com UUID inexistente no campo periodo escolar', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '671f5641-54ds-56s4-5d6s-7115590b7018',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].periodo_escolar[0]).to.eq('O valor “671f5641-54ds-56s4-5d6s-7115590b7018” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com tipo alimentação de em branco', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_de[0]).to.eq('O valor “” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com UUID inexistente no campo tipo alimentação de', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '5067e137-ds54-ds45-ds54-7f58cce93f33',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_de[0]).to.eq('O valor “5067e137-ds54-ds45-ds54-7f58cce93f33” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com alteracao cardapio de em branco', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].alteracao_cardapio[0]).to.eq('Este campo não pode ser nulo.')
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].alteracao_cardapio[0]).to.eq('Este campo não pode ser nulo.')
+			})
+		})
+
+		it('Validar POST com UUID inexistente no campo alteracao cardapio', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '65f11f11-ds51-ds54-ds4-07c875c548f1',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].alteracao_cardapio[0]).to.eq('O valor “65f11f11-ds51-ds54-ds4-07c875c548f1” não é um UUID válido')
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].alteracao_cardapio[0]).to.eq('O valor “65f11f11-ds51-ds54-ds4-07c875c548f1” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com tipos alimentacao para em branco', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_para[0]).to.eq('O valor “” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com UUID inexistente no campo tipos alimentacao para', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '6595ebe5-fd54-ds56-ds56-6347341f9797',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_para[0]).to.eq('O valor “6595ebe5-fd54-ds56-ds56-6347341f9797” não é um UUID válido')
+			})
+		})
+
+		it('Validar POST com qtd alunos negativo', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: -1,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].qtd_alunos[0]).to.eq('Certifque-se de que este valor seja maior ou igual a 0.')
+			})
+		})
+
+		it('Validar POST com qtd alunos em branco', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: '',
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].qtd_alunos[0]).to.eq('Um número inteiro válido é exigido.')
+			})
+		})
+
+		it.only('Validar POST de alterações cardápio com sucesso', () => {
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: 'verdadeiro',
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
+				cy.log(response)
+				// expect(response.status).to.eq(400)
 			})
 		})
 
@@ -106,6 +534,45 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(response.body.status).is.not.null
 				expect(response.body.substituicoes).to.be.an('array').that.is.not.empty
 				expect(response.body.terceirizada_conferiu_gestao).to.exist
+			})
+		})
+
+		it('Validar DELETE de alterações cardápio com sucesso', () => {
+			usuario = Cypress.config('usuario_coordenador_logistica')
+			senha = Cypress.config('senha')
+			cy.autenticar_login(usuario, senha)
+			var dados_teste = {
+				motivo: '1ddec320-cd24-4cf4-9666-3e7b3a2b903c',
+				escola: '671f5641-b1d4-4736-be38-7115590b7018',
+				periodo_escolar: '5067e137-e5f3-4876-a63f-7f58cce93f33',
+				tipos_alimentacao_de: '65f11f11-630b-4629-bb17-07c875c548f1',
+				alteracao_cardapio: '6595ebe5-dc21-48b0-bb05-6347341f9797',
+				tipos_alimentacao_para: '5d1304c8-77a8-4c96-badb-dd2e8c1b76d5',
+				qtd_alunos: 10,
+				cancelado: true,
+				cancelado_justificativa: 'teste automatizado api',
+				cancelado_em: null,
+				cancelado_por: null,
+				observacao: '<p>teste automatizado api</p>',
+				foi_solicitado_fora_do_prazo: true,
+				terceirizada_conferiu_gestao: true,
+				eh_alteracao_com_lanche_repetida: true,
+				criado_por: null,
+				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+			}
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response_exclusao) => {
+				var id = response_exclusao.allRequestResponses[0]['Response Body'].substituicoes[0].alteracao_cardapio
+				cy.excluir_alteracoes_cardapio(id).then((response) => {
+					expect(response.allRequestResponses[0]['Response Status']).to.eq(204)
+					expect(response.allRequestResponses[0]['Response Body']).to.exist
+				})
+			})
+		})
+
+		it('Validar DELETE com id inválido', () => {
+			var id = '1ddec320-cd24-4cf4-9666-3e7b3ds5903c'
+			cy.excluir_alteracoes_cardapio(id).then((response) => {
+				expect(response.allRequestResponses[0]['Response Status']).to.eq(404)
 			})
 		})
 
