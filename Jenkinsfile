@@ -27,14 +27,13 @@ pipeline {
             }
         }
 
-        stage('Executar Testes') {
+        stage('Executar') {
             steps {
                 sh '''
                     npx cypress run \
                         --headless \
                         --browser chrome \
                         --spec cypress/e2e/api/* \
-                        --no-sandbox \
                         --disable-dev-shm-usage
                 '''
             }
