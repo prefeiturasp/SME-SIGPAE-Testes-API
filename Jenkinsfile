@@ -5,7 +5,11 @@ pipeline {
         skipDefaultCheckout()
     }
 
-    agent { label 'SME-JENKINS-AGENT1' }
+        agent { kubernetes {
+                  label 'builder'
+                  defaultContainer 'builder'
+                }
+              }
 
     stages {
         stage('Checkout') {
