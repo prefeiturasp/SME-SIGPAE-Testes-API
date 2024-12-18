@@ -29,12 +29,13 @@ pipeline {
 
         stage('Executar') {
             steps {
-                sh '''
+                    sh '''
                     npx cypress run \
                         --headless \
                         --browser chrome \
+                        -- --no-sandbox --disable-gpu --disable-software-rasterizer --no-zygote --disable-dev-shm-usage --disable-setuid-sandbox \
                         --spec cypress/e2e/api/*
-                '''
+                    '''
             }
         }
     }
