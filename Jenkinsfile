@@ -9,6 +9,24 @@ pipeline {
         kubernetes {
             label 'cypress'
             defaultContainer 'cypress-13-6-6'
+            yaml """
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              labels:
+                app: cypress
+            spec:
+              containers:
+              - name: cypress
+                image: cypress/base:latest
+                resources:
+                  limits:
+                    memory: "4Gi"
+                    cpu: "2"
+                  requests:
+                    memory: "2Gi"
+                    cpu: "1"
+            """
         }
     }
 
@@ -29,7 +47,7 @@ pipeline {
 
         stage('Executar') {
             steps {
-                  sh '''
+                sh '''
                     npx cypress run \
                         --headless \
                         --spec cypress/e2e/api/*
