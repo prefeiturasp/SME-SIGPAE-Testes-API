@@ -28,7 +28,7 @@ pipeline {
 
         stage('Verificar Dependências') {
             steps {
-                sh 'npx cypress run --spec cypress/e2e/api/*'
+                sh 'npx cypress run --headless --spec cypress/e2e/api/*'
             }
         }
 
