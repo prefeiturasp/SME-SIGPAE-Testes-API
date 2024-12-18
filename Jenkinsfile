@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sh 'mkdir -p /home/jenkins/.cache/Cypress'
                 sh 'chmod -R 777 /home/jenkins/.cache/Cypress'
-                sh 'npm install'
+                sh 'sudo npm install'
             }
         }
 
