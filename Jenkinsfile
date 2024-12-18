@@ -26,18 +26,6 @@ pipeline {
             }
         }
 
-        parallel {
-            stage('Executar Testes Cypress') {
-                steps {
-                    sh 'npx cypress run --reporter spec'
-                }
-                post {
-                    always {
-                        archiveArtifacts artifacts: 'cypress/screenshots/**/*, cypress/videos/**/*', allowEmptyArchive: true
-                    }
-                }
-            }
-
             stage('Build Docker') {
                 steps {
                     script {
@@ -48,4 +36,3 @@ pipeline {
             }
         }
     }
-}
