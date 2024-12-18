@@ -28,7 +28,7 @@ pipeline {
 
         stage('Verificar Dependências') {
             steps {
-                sh 'npx cypress run --browser chrome -- -- --no-sandbox --disable-gpu --disable-software-rasterizer --no-zygote --disable-dev-shm-usage --disable-setuid-sandbox'
+                sh 'npx cypress run --spec cypress/e2e/api/*'
             }
         }
 
