@@ -20,6 +20,7 @@ pipeline {
 
         stage('Instalar Dependências') {
             steps {
+                sh 'chmod -R 777 /proc'
                 sh 'mkdir -p /home/jenkins/.cache/Cypress'
                 sh 'chmod -R 777 /home/jenkins/.cache/Cypress'
                 sh 'npm install'
