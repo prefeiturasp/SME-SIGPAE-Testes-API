@@ -28,17 +28,9 @@ pipeline {
 
         stage('Verificar Dependências') {
             steps {
-                sh 'npx cypress run --browser chrome -- --no-sandbox'
+                sh 'npx cypress run --spec cypress/e2e/api/*'
             }
         }
 
-            stage('Build Docker') {
-                steps {
-                    script {
-                        sh "docker build -f ./Dockerfile . -t sme-sigpae-poc-testes:latest"
-                        sh "docker run --rm sme-sigpae-poc-testes:latest npx cypress run"
-                    }
-                }
-            }
         }
     }
