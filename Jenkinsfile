@@ -7,7 +7,7 @@ pipeline {
 
     agent { kubernetes {
         label 'cypress'
-            defaultContainer 'cypress'
+            defaultContainer 'cypress-13-6-6'
             }
         }
 
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sh 'mkdir -p /home/jenkins/.cache/Cypress'
                 sh 'chmod -R 777 /home/jenkins/.cache/Cypress'
-                sh 'sudo npm install'
+                sh 'npm install'
             }
         }
 
