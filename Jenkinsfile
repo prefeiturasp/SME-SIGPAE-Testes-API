@@ -5,11 +5,12 @@ pipeline {
         skipDefaultCheckout()
     }
 
-    agent { kubernetes {
-        label 'cypress'
+    agent {
+        kubernetes {
+            label 'cypress'
             defaultContainer 'cypress-13-6-6'
-            }
         }
+    }
 
     stages {
         stage('Checkout') {
@@ -26,11 +27,17 @@ pipeline {
             }
         }
 
-        stage('Verificar Dependências') {
+        stage('Executar Testes') {
             steps {
-                sh 'npx cypress run --headless --spec cypress/e2e/api/*'
+                sh '''
+                    npx cypress run \
+                        --headless \
+                        --browser chrome \
+                        --spec cypress/e2e/api/* \
+                        --no-sandbox \
+                        --disable-dev-shm-usage
+                '''
             }
         }
-
-        }
     }
+}
