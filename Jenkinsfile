@@ -5,11 +5,11 @@ pipeline {
         skipDefaultCheckout()
     }
 
-        agent { kubernetes {
-                  label 'builder'
-                  defaultContainer 'builder'
-                }
-              }
+    agent { kubernetes {
+        label 'cypress'
+            defaultContainer 'cypress'
+            }
+        }
 
     stages {
         stage('Checkout') {
