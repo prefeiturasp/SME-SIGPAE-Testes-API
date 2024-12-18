@@ -33,8 +33,7 @@ pipeline {
                     npx cypress run \
                         --headless \
                         --browser chrome \
-                        --spec cypress/e2e/api/* \
-                        --disable-dev-shm-usage
+                        --spec cypress/e2e/api/*
                 '''
             }
         }

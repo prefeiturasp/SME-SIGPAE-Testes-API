@@ -4,6 +4,13 @@ module.exports = defineConfig({
 	e2e: {
 		setupNodeEvents(on, config) {
 			require('./cypress/plugin/index.js')(on, config)
+			on('before:browser:launch', (browser = {}, launchOptions) => {
+				if (browser.name === 'chrome') {
+					launchOptions.args.push('--no-sandbox')
+					launchOptions.args.push('--disable-dev-shm-usage')
+				}
+				return launchOptions
+			})
 			return config
 		},
 		baseUrl: 'https://hom-sigpae.sme.prefeitura.sp.gov.br/',
