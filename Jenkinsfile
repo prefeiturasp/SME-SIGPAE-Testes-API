@@ -26,7 +26,7 @@ pipeline {
 
         stage('Verificar Dependências') {
             steps {
-                sh 'npm audit --production'
+                sh 'npx cypress run'
             }
         }
 
