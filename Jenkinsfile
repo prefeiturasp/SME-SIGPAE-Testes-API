@@ -66,6 +66,9 @@ pipeline {
     }
 
     post {
+        always {
+            
+        }
         success { 
             sendTelegram("☑️ Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
         }
