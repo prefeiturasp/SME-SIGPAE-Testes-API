@@ -66,8 +66,14 @@ pipeline {
     }
 
     post {
-        always {            
-        
+        always {
+            script {
+                sh 'chmod -R 777 .'
+                sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                archiveArtifacts artifacts: 'allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip', fingerprint: true
+            }
+        }
             success { 
                 sendTelegram("☑️ Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
             }
@@ -80,7 +86,6 @@ pipeline {
             aborted { 
                 sendTelegram ("😥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console") 
             }
-        }
     }
 }
 
