@@ -14,7 +14,7 @@ pipeline {
     }
 
     environment {
-        WORKSPACE_DIR = '/home/jenkins/agent/workspace/POC_-_Testes_-_SIGPAE_jenkins/allure-report'
+        WORKSPACE_DIR = '/home/jenkins/agent/workspace/POC_-_Testes_-_SIGPAE_jenkins'
     }
 
     stages {
