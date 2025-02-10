@@ -14,7 +14,7 @@ pipeline {
     }
 
     environment {
-        WORKSPACE_DIR = '/home/jenkins/agent/workspace/${JOB_NAME}'
+        WORKSPACE_DIR = '/home/jenkins/agent/workspace/POC_-_Testes_-_SIGPAE_jenkins/allure-report'
     }
 
     stages {
@@ -59,7 +59,6 @@ pipeline {
                     allure([
                         results: [[path: 'allure-results']]
                     ])
-                    fingerprint: true    
                 }
             }
         }
@@ -71,7 +70,7 @@ pipeline {
                 sh 'chmod -R 777 .'
                 sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
                 allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-                archiveArtifacts artifacts: 'allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip', fingerprint: true
+                archiveArtifacts artifacts: '.zip', fingerprint: true
             }
         }
             success { 
