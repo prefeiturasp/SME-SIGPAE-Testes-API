@@ -59,20 +59,23 @@ pipeline {
                     allure([
                         results: [[path: 'allure-results']]
                     ])
+                sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                archiveArtifacts artifacts: '.zip', fingerprint: true
                 }
             }
         }
     }
 
     post {
-        always {
-            script {
-                sh 'chmod -R 777 .'
-                sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-                //archiveArtifacts artifacts: '.zip', fingerprint: true
-            }
-        }
+        // always {
+        //     script {
+        //         sh 'chmod -R 777 .'
+        //         sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
+        //         allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+        //         //archiveArtifacts artifacts: '.zip', fingerprint: true
+        //     }
+        // }
             success { 
                 sendTelegram("☑️ Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
             }
