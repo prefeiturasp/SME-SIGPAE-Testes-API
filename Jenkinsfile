@@ -60,8 +60,8 @@ pipeline {
                         results: [[path: 'allure-results']]
                     ])
                 sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-                archiveArtifacts artifacts: '.zip', fingerprint: true
+                // allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                // archiveArtifacts artifacts: '.zip', fingerprint: true
                 }
             }
         }
