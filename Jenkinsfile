@@ -44,7 +44,7 @@ pipeline {
                     sh '''
                         NO_COLOR=1 npx cypress run \
                             --headless \
-                            --spec cypress/e2e/api/* \
+                            --spec cypress/e2e/api/validar_alergias_intolerancias.cy.js,cypress/e2e/api/validar_alimentos.cy.js,cypress/e2e/api/validar_alimentos_da_guia.cy.js,cypress/e2e/api/validar_alteracoes_cardapio.cy.js,cypress/e2e/api/validar_login.cy.js \
                             --reporter mocha-allure-reporter \
                             --browser chrome
                     '''
@@ -59,35 +59,39 @@ pipeline {
                     allure([
                         results: [[path: 'allure-results']]
                     ])
-                sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
-                // allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-                // archiveArtifacts artifacts: '.zip', fingerprint: true
+                    sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
                 }
             }
         }
     }
 
     post {
-        // always {
-        //     script {
-        //         sh 'chmod -R 777 .'
-        //         sh 'zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results'
-        //         allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-        //         //archiveArtifacts artifacts: '.zip', fingerprint: true
-        //     }
-        // }
-            success { 
-                sendTelegram("☑️ Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
+        always {
+            script {
+                sh '''
+                    set -e
+                    chmod -R 777 $WORKSPACE_DIR
+                    rm -f $WORKSPACE_DIR/allure-report.zip
+                    zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results
+                '''
+                allure([
+                    results: [[path: 'allure-results']]
+                ])
+                archiveArtifacts artifacts: 'allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip', fingerprint: true
             }
-            unstable { 
-                sendTelegram("💣 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure") 
-            }
-            failure { 
-                sendTelegram("💥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure") 
-            }
-            aborted { 
-                sendTelegram ("😥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console") 
-            }
+        }
+        success { 
+            sendTelegram("☑️ Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
+        }
+        unstable { 
+            sendTelegram("💣 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure") 
+        }
+        failure { 
+            sendTelegram("💥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure") 
+        }
+        aborted { 
+            sendTelegram ("😥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console") 
+        }
     }
 }
 
