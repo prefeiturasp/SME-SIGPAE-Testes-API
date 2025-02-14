@@ -63,7 +63,7 @@ pipeline {
                         chmod -R 777 $WORKSPACE_DIR
                         rm -f $WORKSPACE_DIR/allure-report.zip
                         zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results
-                        archiveArtifacts artifacts: 'zip', fingerprint: true
+                        archiveArtifacts artifacts: 'allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip', fingerprint: true
                     '''
                 }
             }
