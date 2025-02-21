@@ -73,7 +73,7 @@ pipeline {
         always {
             script {
                     sh 'chmod -R 777 $WORKSPACE_DIR'
-                    if (currentBuild.result == 'SUCCESS') {
+                    if (currentBuild.result == 'SUCCESS' || currentBuild.result == 'FAILURE') {
                         archiveArtifacts artifacts: 'allure-results-*.zip', fingerprint: true
                     }
             }
