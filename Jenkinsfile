@@ -44,7 +44,7 @@ pipeline {
                     sh '''
                         NO_COLOR=1 npx cypress run \
                             --headless \
-                            --spec cypress/e2e/api/validar_alergias_intolerancias.cy.js,cypress/e2e/api/validar_alimentos.cy.js,cypress/e2e/api/validar_alimentos_da_guia.cy.js,cypress/e2e/api/validar_alteracoes_cardapio.cy.js,cypress/e2e/api/validar_login.cy.js \
+                            --spec cypress/e2e/api/* \
                             --reporter mocha-allure-reporter \
                             --browser chrome
                     '''
@@ -60,7 +60,6 @@ pipeline {
                         results: [[path: 'allure-results']]
                     ])
                     sh '''
-                        chmod -R 777 $WORKSPACE_DIR
                         rm -f $WORKSPACE_DIR/allure-report.zip
                         zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results
                     '''
