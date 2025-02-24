@@ -72,10 +72,11 @@ pipeline {
     post {
         always {
             script {
-                    sh 'chmod -R 777 $WORKSPACE_DIR'
-                    if (currentBuild.result == 'SUCCESS' || currentBuild.result == 'FAILURE') {
-                        archiveArtifacts artifacts: 'allure-results-*.zip', fingerprint: true
-                    }
+                sh 'chmod -R 777 $WORKSPACE_DIR'
+                if (currentBuild.result == 'SUCCESS' || currentBuild.result == 'FAILURE') {
+                    allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                    archiveArtifacts artifacts: 'allure-results-*.zip', fingerprint: true
+                }
             }
         }
         success { 

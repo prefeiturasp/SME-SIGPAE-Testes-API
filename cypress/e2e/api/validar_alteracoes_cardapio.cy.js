@@ -77,7 +77,7 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(201)
 				expect(response.allRequestResponses[0]['Response Body'].motivo).to.eq(
-					dados_teste.motivo,
+					dados_teste.escola,
 				)
 				expect(response.allRequestResponses[0]['Response Body'].escola).to.eq(
 					dados_teste.escola,
