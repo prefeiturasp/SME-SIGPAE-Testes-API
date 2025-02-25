@@ -1,20 +1,7 @@
 /// <reference types='cypress' />
 const dayjs = require('dayjs')
+const { validar_dia_semana } = require('../../support/utils/data_utils')
 var data_atual = dayjs()
-
-function validar_dia_semana(hoje, dias) {
-	let data = hoje.add(dias, 'day')
-	let diaDaSemana = data.day()
-
-	if (diaDaSemana === 0) {
-		return data.add(1, 'day')
-	}
-	if (diaDaSemana === 6) {
-		return data.add(2, 'day')
-	} else {
-		return data
-	}
-}
 
 describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 	var usuario = Cypress.config('usuario_coordenador_logistica')
