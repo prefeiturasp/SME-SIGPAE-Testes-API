@@ -6,6 +6,7 @@ import './commands_api/commands_alimentos'
 import './commands_api/commands_alergias_intolerancias'
 import './commands_api/commands_alimentos_da_guia'
 import './commands_api/commands_alteracoes_cardapio'
+import './commands_api/commands_alunos'
 
 import './commands_ui/commands_login'
 import './commands_ui/commands_globais'
