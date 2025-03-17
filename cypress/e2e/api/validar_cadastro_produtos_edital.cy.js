@@ -8,7 +8,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 	})
 
 	context('Casos de teste para a rota api/cadastro-produtos-edital/', () => {
-		it.only('Validar GET de produtos edital com sucesso', () => {
+		it('Validar GET de produtos edital com sucesso', () => {
 			var parametros = ''
 			cy.consultar_produtos_edital(parametros).then((response) => {
 				expect(response.status).to.eq(200)
@@ -25,7 +25,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			})
 		})
 
-		it.only('Validar GET de produtos edital por nome', () => {
+		it('Validar GET de produtos edital por nome', () => {
 			var parametros = '?nome=Teste Automação Novo Produto'
 			cy.consultar_produtos_edital(parametros).then((response) => {
 				expect(response.status).to.eq(200)
@@ -42,7 +42,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			})
 		})
 
-		it.only('Validar GET de produtos edital por nome não existente', () => {
+		it('Validar GET de produtos edital por nome não existente', () => {
 			var parametros = '?nome=Produto não existente'
 			cy.consultar_produtos_edital(parametros).then((response) => {
 				expect(response.status).to.eq(200)
@@ -54,7 +54,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			})
 		})
 
-		it.only('Validar GET de produtos edital por data de cadastro', () => {
+		it('Validar GET de produtos edital por data de cadastro', () => {
 			var parametros = '?data_cadastro=13/03/2025'
 			cy.consultar_produtos_edital(parametros).then((response) => {
 				expect(response.status).to.eq(200)
@@ -71,37 +71,11 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			})
 		})
 
-		it.only('Validar GET de produtos edital por data de cadastro inválida', () => {
+		it('Validar GET de produtos edital por data de cadastro inválida', () => {
 			var parametros = '?data_cadastro=13/03'
 			cy.consultar_produtos_edital(parametros).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.data_cadastro[0]).to.eq('Informe uma data válida.')
-			})
-		})
-
-		it.skip('Validar POST de cadastro produto edital com sucesso', () => {
-			var dados_teste = {
-				nome: 'Teste Automação Novo Produto',
-				ativo: 'True',
-				tipo_produto: 'TERCEIRIZADA',
-			}
-			cy.cadastrar_produto_edital(dados_teste).then((response) => {
-				expect(response.status).to.eq(201)
-				expect(response.body['ativo']).to.eq('True')
-				expect(response.body['tipo_produto']).to.eq('TERCEIRIZADA')
-			})
-		})
-
-		it.skip('Validar DELETE de cadastro produto edital com sucesso', () => {
-			var dados_teste = {
-				nome: 'Teste Automação Novo Produto',
-				ativo: 'True',
-				tipo_produto: 'TERCEIRIZADA',
-			}
-			cy.cadastrar_produto_edital(dados_teste).then((response) => {
-				expect(response.status).to.eq(201)
-				expect(response.body['ativo']).to.eq('True')
-				expect(response.body['tipo_produto']).to.eq('TERCEIRIZADA')
 			})
 		})
 

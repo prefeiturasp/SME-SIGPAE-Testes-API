@@ -96,15 +96,3 @@ Cypress.Commands.add('validar_produtos_logistica', () => {
 		failOnStatusCode: false,
 	})
 })
-
-Cypress.Commands.add('excluir_produto_edital', (uuid) => {
-	cy.request({
-		method: 'DELETE',
-		url: Cypress.config('baseUrl') + `api/cadastro-produtos-edital/${uuid}/`,
-		timeout: 60000,
-		headers: {
-			Authorization: 'JWT ' + globalThis.token,
-		},
-		failOnStatusCode: false,
-	})
-})
