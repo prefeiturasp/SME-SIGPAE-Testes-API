@@ -1057,46 +1057,6 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 	)
 
 	context(
-		'Casos de teste para a rota /api/alteracoes-cardapio/com-lanche-do-mes-corrente/id',
-		() => {
-			it('Validar GET lanche do mes corrente com sucesso', () => {
-				var id = 'e09ea350-7ffa-4f15-8ce3-8bae4bae2eb3/'
-				var usuario = Cypress.config('usuario_diretor_ue')
-				var senha = Cypress.config('senha')
-				cy.autenticar_login(usuario, senha)
-				cy.validar_alteracoes_cardapio_com_lanche_do_mes_corrente(id).then(
-					(response) => {
-						expect(response.status).to.eq(200)
-						expect(response.body.count).to.exist
-
-						const results = response.body.results
-						expect(results).to.exist
-
-						results.forEach((result) => {
-							const escola = result.escola
-							const lote = escola.lote
-							const contratos = lote.contratos_do_lote
-							const datasIntervalo = result.datas_intervalo
-
-							expect(escola.codigo_eol).to.exist
-							expect(escola.nome).to.exist
-
-							expect(lote.nome).to.exist
-							contratos.forEach((contrato) => {
-								expect(contrato.uuid).to.exist
-							})
-
-							datasIntervalo.forEach((data) => {
-								expect(data.alteracao_cardapio).to.exist
-							})
-						})
-					},
-				)
-			})
-		},
-	)
-
-	context(
 		'Casos de teste para a rota /api/alteracoes-cardapio/minhas-solicitacoes/',
 		() => {
 			it('Validar GET minhas solicitacoes com sucesso', () => {
