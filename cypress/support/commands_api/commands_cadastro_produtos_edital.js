@@ -96,3 +96,49 @@ Cypress.Commands.add('validar_produtos_logistica', () => {
 		failOnStatusCode: false,
 	})
 })
+
+Cypress.Commands.add('atualizar_produto_edital', (uuid, dados_teste) => {
+	cy.request({
+		method: 'PUT',
+		url: Cypress.config('baseUrl') + `api/cadastro-produtos-edital/${uuid}`,
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		body: {
+			nome: dados_teste.nome,
+			ativo: dados_teste.ativo,
+			tipo_produto: dados_teste.tipo_produto,
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('excluir_produto_edital', (uuid) => {
+	cy.request({
+		method: 'DELETE',
+		url: Cypress.config('baseUrl') + `api/cadastro-produtos-edital/${uuid}/`,
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('atualizar_produto_edital_patch', (uuid, dados_teste) => {
+	cy.request({
+		method: 'PATCH',
+		url: Cypress.config('baseUrl') + `api/cadastro-produtos-edital/${uuid}`,
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		body: {
+			nome: dados_teste.nome,
+			ativo: dados_teste.ativo,
+			tipo_produto: dados_teste.tipo_produto,
+		},
+		failOnStatusCode: false,
+	})
+})
