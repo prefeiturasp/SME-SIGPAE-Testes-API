@@ -80,6 +80,23 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			})
 		})
 
+		it('Validar GET de produtos edital por status', () => {
+			var status = Math.random() < 0.5 ? 'Ativo' : 'Inativo'
+			var parametros = '?status=' + status
+			cy.consultar_produtos_edital(parametros).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('count').that.exist
+				expect(response.body).to.have.property('previous').that.null
+				expect(response.body).to.have.property('results').that.is.an('array')
+					.and.not.to.be.empty
+				const primeiro_resultado = response.body.results[0]
+				expect(primeiro_resultado).to.have.property('uuid').that.exist
+				expect(primeiro_resultado).to.have.property('nome').that.exist
+				expect(primeiro_resultado).to.have.property('status').that.exist
+				expect(primeiro_resultado).to.have.property('criado_em').that.exist
+			})
+		})
+
 		it('Validar POST de cadastro produto edital com sucesso', () => {
 			var dados_teste = {
 				nome: 'Teste Automação Novo Produto Cadastrado',
@@ -356,6 +373,78 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 				expect(response.body).to.exist
 			})
 		})
+
+		it('Validar PATCH de produto edital alterado com sucesso.', () => {
+			var dados_teste = {
+				nome: 'PRODUTO ATUALIZADO VIA PATCH COM SUCESSO',
+				ativo: 'Ativo',
+				tipo_produto: 'TERCEIRIZADA',
+			}
+			var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
+			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body['ativo']).to.eq('True')
+				expect(response.body['tipo_produto']).to.eq('TERCEIRIZADA')
+			})
+		})
+
+		it('Validar PATCH de produto edital já cadastrado', () => {
+			var dados_teste = {
+				nome: 'PRODUTO ATUALIZADO VIA PATCH',
+				ativo: 'Ativo',
+				tipo_produto: 'TERCEIRIZADA',
+			}
+			var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
+			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.body[0]).to.eq('Item já cadastrado.')
+			})
+		})
+
+		it('Validar PATCH de produto edital com tipo de produto inválido', () => {
+			var dados_teste = {
+				nome: 'PRODUTO ATUALIZADO',
+				ativo: 'Ativo',
+				tipo_produto: 'TERCEIRA',
+			}
+			var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
+			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.body.tipo_produto).to.contains(
+					'"TERCEIRA" não é um escolha válido.',
+				)
+			})
+		})
+
+		it('Validar PATCH de produto edital com o campo nome em branco', () => {
+			var dados_teste = {
+				nome: '',
+				ativo: 'Ativo',
+				tipo_produto: 'TERCEIRIZADA',
+			}
+			var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
+			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.body.nome[0]).to.contains(
+					'Este campo não pode ser em branco',
+				)
+			})
+		})
+
+		it('Validar PATCH de produto edital com o campo ativo em branco', () => {
+			var dados_teste = {
+				nome: 'PRODUTO ATUALIZADO',
+				ativo: '',
+				tipo_produto: 'TERCEIRIZADA',
+			}
+			var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
+			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
+				expect(response.status).to.eq(400)
+				expect(response.body.ativo[0]).to.contains(
+					'Este campo não pode ser em branco',
+				)
+			})
+		})
 	})
 })
 
@@ -387,5 +476,22 @@ afterEach(function () {
 			})
 			cy.log('Excluíndo o produto após o POST com sucesso')
 		})
+	}
+	if (
+		this.currentTest.title ===
+		'Validar PATCH de produto edital alterado com sucesso.'
+	) {
+		var dados_teste = {
+			nome: 'PRODUTO ATUALIZADO VIA PATCH',
+			ativo: 'Ativo',
+			tipo_produto: 'TERCEIRIZADA',
+		}
+		var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
+		cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
+			expect(response.status).to.eq(200)
+		})
+		cy.log(
+			'Alterando o produto para o estado original, após o PATCH com sucesso',
+		)
 	}
 })
