@@ -14,7 +14,7 @@ pipeline {
     }
 
     environment {
-        WORKSPACE_DIR = "/home/jenkins/agent/workspace/${JOB_NAME}/${BRANCH_NAME}"
+        WORKSPACE_DIR = "/home/jenkins/agent/workspace/POC_-_Testes_-_SIGPAE_${BRANCH_NAME}"
     }
 
     stages {
