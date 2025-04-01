@@ -58,9 +58,6 @@ pipeline {
                     sh '''
                         chmod -R 777 $WORKSPACE_DIR/allure-results
                         allure generate $WORKSPACE_DIR/allure-results --clean
-                        if [ -f $WORKSPACE_DIR/allure-report.zip ]; then
-                            rm -f $WORKSPACE_DIR/allure-report.zip
-                        fi
                         zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results
                     '''
                 }
