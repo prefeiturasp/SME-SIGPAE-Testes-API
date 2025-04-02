@@ -56,8 +56,10 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        npm install -g allure-commandline --save-dev
+                        echo $PATH 
                         chmod -R 777 $WORKSPACE_DIR/allure-results
-                        allure generate $WORKSPACE_DIR/allure-results
+                        allure generate $WORKSPACE_DIR/allure-results --clean --output $WORKSPACE_DIR/allure-report
                         if [ -f $WORKSPACE_DIR/allure-report.zip ]; then
                             rm -f $WORKSPACE_DIR/allure-report.zip
                         fi
