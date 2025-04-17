@@ -19,6 +19,7 @@ module.exports = defineConfig({
 		usuario_coordenador_logistica: '07206148808',
 		usuario_coordenador_codae_dilog_logistica: '53666852220',
 		usuario_coordenador_supervisao_nutricao: '26088238070',
+		usuario_dilog_cronograma: '10840346034',
 		usuario_diretor_ue: '44331733637',
 		senha: 'adminadmin',
 		video: false,
