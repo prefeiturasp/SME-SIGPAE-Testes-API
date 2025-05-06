@@ -1,29 +1,5 @@
 /// <reference types='cypress' />
 
-Cypress.Commands.add('consultar_dashboard_produtos', () => {
-	cy.request({
-		method: 'GET',
-		url: Cypress.config('baseUrl') + 'api/dashboard-produtos/',
-		timeout: 60000,
-		headers: {
-			Authorization: 'JWT ' + globalThis.token,
-		},
-		failOnStatusCode: false,
-	})
-})
-
-Cypress.Commands.add('consultar_dashboard_produtos_por_uuid', (uuid) => {
-	cy.request({
-		method: 'GET',
-		url: Cypress.config('baseUrl') + `api/dashboard-produtos/${uuid}`,
-		timeout: 60000,
-		headers: {
-			Authorization: 'JWT ' + globalThis.token,
-		},
-		failOnStatusCode: false,
-	})
-})
-
 Cypress.Commands.add('consultar_aguardando_analise_reclamacao', () => {
 	cy.request({
 		method: 'GET',

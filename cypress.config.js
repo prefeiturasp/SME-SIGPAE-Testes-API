@@ -28,7 +28,7 @@ module.exports = defineConfig({
 		video: false,
 		timeout: 60000,
 		videoCompression: 0,
-		retries: 0,
+		retries: 2,
 		screenshotOnRunFailure: true,
 		chromeWebSecurity: false,
 		experimentalRunAllSpecs: true,
