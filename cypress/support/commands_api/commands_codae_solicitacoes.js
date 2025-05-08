@@ -63,14 +63,16 @@ Cypress.Commands.add('consultar_cancelados_dieta', () => {
 	})
 })
 
-// Cypress.Commands.add('consultar_autorizados_dieta', (uuid) => {
-// 	cy.request({
-// 		method: 'GET',
-// 		url: Cypress.config('baseUrl') + `api/conferencia-da-guia/${uuid}`,
-// 		timeout: 60000,
-// 		headers: {
-// 			Authorization: 'JWT ' + globalThis.token,
-// 		},
-// 		failOnStatusCode: false,
-// 	})
-// })
+Cypress.Commands.add('consultar_autorizadas_temporariamente_dieta', () => {
+	cy.request({
+		method: 'GET',
+		url:
+			Cypress.config('baseUrl') +
+			'api/codae-solicitacoes/autorizadas-temporariamente-dieta/',
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})

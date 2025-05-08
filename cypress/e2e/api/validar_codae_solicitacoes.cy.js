@@ -109,7 +109,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 				})
 			})
 
-			it('Validar GET com sucesso de autorizados dietas', () => {
+			it('Validar GET com sucesso de dietas autorizadas', () => {
 				cy.consultar_autorizados_dieta().then((response) => {
 					expect(response.status).to.eq(200)
 					expect(response.body).to.have.property('count')
@@ -206,7 +206,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 				})
 			})
 
-			it('Validar GET com sucesso de inativas dietas', () => {
+			it('Validar GET com sucesso de dietas inativas', () => {
 				cy.consultar_inativas_dieta().then((response) => {
 					expect(response.status).to.eq(200)
 					expect(response.body).to.have.property('count')
@@ -303,7 +303,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 				})
 			})
 
-			it('Validar GET com sucesso de negados dietas', () => {
+			it('Validar GET com sucesso de dietas negadas', () => {
 				cy.consultar_negados_dieta().then((response) => {
 					expect(response.status).to.eq(200)
 					expect(response.body).to.have.property('count')
@@ -400,7 +400,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 				})
 			})
 
-			it('Validar GET com sucesso de cancelados dietas', () => {
+			it('Validar GET com sucesso de dietas canceladas', () => {
 				cy.consultar_cancelados_dieta().then((response) => {
 					expect(response.status).to.eq(200)
 					expect(response.body).to.have.property('count')
@@ -497,6 +497,17 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 					)
 					expect(response.body.results[0]).to.have.property('dre_nome')
 					expect(response.body.results[0]).to.have.property('dre_nome')
+				})
+			})
+
+			it('Validar GET com sucesso de dietas autorizadas temporariamente', () => {
+				cy.consultar_autorizadas_temporariamente_dieta().then((response) => {
+					expect(response.status).to.eq(200)
+					expect(response.body).to.have.property('count')
+					expect(response.body).to.have.property('next')
+					expect(response.body).to.have.property('previous')
+					expect(response.body).to.have.property('results')
+					expect(response.body.results).to.be.an('array')
 				})
 			})
 		},
