@@ -1,5 +1,6 @@
 /// <reference types='cypress' />
 const dayjs = require('dayjs')
+const { validar_dia_semana } = require('../../support/utils/data_utils')
 var data_atual = dayjs()
 
 describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
@@ -10,7 +11,6 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 	})
 
 	context('Casos de teste para a rota api/alteracoes_cardapio/', () => {
-
 		it('Validar GET de alterações cardápio com sucesso', () => {
 			var id = ''
 			cy.validar_alteracoes_cardapio(id).then((response) => {
@@ -37,7 +37,6 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 					datasIntervalo.forEach((data) => {
 						expect(data.alteracao_cardapio).to.exist
 					})
-
 				})
 			})
 		})
@@ -60,19 +59,42 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(201)
-				expect(response.allRequestResponses[0]['Response Body'].motivo).to.eq(dados_teste.motivo)
-				expect(response.allRequestResponses[0]['Response Body'].escola).to.eq(dados_teste.escola)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].periodo_escolar).to.eq(dados_teste.periodo_escolar)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_de[0]).to.eq(dados_teste.tipos_alimentacao_de)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_para[0]).to.eq(dados_teste.tipos_alimentacao_para)
-				expect(response.allRequestResponses[0]['Response Body'].criado_em).to.contains(data_atual.add(0, 'day').format('DD/MM/YYYY'))
-				expect(response.allRequestResponses[0]['Response Body'].data_final).to.contains(data_atual.add(5, 'day').format('DD/MM/YYYY'))
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].criado_em).to.contains(data_atual.add(0, 'day').format('DD/MM/YYYY'))
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].data).to.eq(data_atual.add(5, 'day').format('DD/MM/YYYY'))
+				expect(response.allRequestResponses[0]['Response Body'].motivo).to.eq(
+					dados_teste.motivo,
+				)
+				expect(response.allRequestResponses[0]['Response Body'].escola).to.eq(
+					dados_teste.escola,
+				)
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.periodo_escolar,
+				).to.eq(dados_teste.periodo_escolar)
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.tipos_alimentacao_de[0],
+				).to.eq(dados_teste.tipos_alimentacao_de)
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.tipos_alimentacao_para[0],
+				).to.eq(dados_teste.tipos_alimentacao_para)
+				expect(
+					response.allRequestResponses[0]['Response Body'].criado_em,
+				).to.contains(data_atual.format('DD/MM/YYYY'))
+				expect(
+					response.allRequestResponses[0]['Response Body'].data_final,
+				).to.contains(validar_dia_semana(data_atual, 5).format('DD/MM/YYYY'))
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.criado_em,
+				).to.contains(data_atual.format('DD/MM/YYYY'))
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.data,
+				).to.eq(validar_dia_semana(data_atual, 5).format('DD/MM/YYYY'))
 			})
 		})
 
@@ -94,11 +116,13 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].motivo[0]).to.eq('Este campo não pode ser nulo.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].motivo[0],
+				).to.eq('Este campo não pode ser nulo.')
 			})
 		})
 
@@ -120,11 +144,15 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].motivo[0]).to.eq('O valor “671f5641-ds54-4736-dsa4-7115590b7018” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].motivo[0],
+				).to.eq(
+					'O valor “671f5641-ds54-4736-dsa4-7115590b7018” não é um UUID válido',
+				)
 			})
 		})
 
@@ -146,11 +174,13 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].escola[0]).to.eq('Este campo não pode ser nulo.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].escola[0],
+				).to.eq('Este campo não pode ser nulo.')
 			})
 		})
 
@@ -172,11 +202,15 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].escola[0]).to.eq('O valor “1ddec320-dss2-45ds-9666-3e7b3a2b903c” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].escola[0],
+				).to.eq(
+					'O valor “1ddec320-dss2-45ds-9666-3e7b3a2b903c” não é um UUID válido',
+				)
 			})
 		})
 
@@ -198,11 +232,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].periodo_escolar[0]).to.eq('Este campo não pode ser nulo.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.periodo_escolar[0],
+				).to.eq('Este campo não pode ser nulo.')
 			})
 		})
 
@@ -224,11 +261,16 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].periodo_escolar[0]).to.eq('O valor “671f5641-54ds-56s4-5d6s-7115590b7018” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.periodo_escolar[0],
+				).to.eq(
+					'O valor “671f5641-54ds-56s4-5d6s-7115590b7018” não é um UUID válido',
+				)
 			})
 		})
 
@@ -250,11 +292,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_de[0]).to.eq('O valor “” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.tipos_alimentacao_de[0],
+				).to.eq('O valor “” não é um UUID válido')
 			})
 		})
 
@@ -276,11 +321,16 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_de[0]).to.eq('O valor “5067e137-ds54-ds45-ds54-7f58cce93f33” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.tipos_alimentacao_de[0],
+				).to.eq(
+					'O valor “5067e137-ds54-ds45-ds54-7f58cce93f33” não é um UUID válido',
+				)
 			})
 		})
 
@@ -302,12 +352,18 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].alteracao_cardapio[0]).to.eq('Este campo não pode ser nulo.')
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].alteracao_cardapio[0]).to.eq('Este campo não pode ser nulo.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.alteracao_cardapio[0],
+				).to.eq('Este campo não pode ser nulo.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.alteracao_cardapio[0],
+				).to.eq('Este campo não pode ser nulo.')
 			})
 		})
 
@@ -329,12 +385,22 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].alteracao_cardapio[0]).to.eq('O valor “65f11f11-ds51-ds54-ds4-07c875c548f1” não é um UUID válido')
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].alteracao_cardapio[0]).to.eq('O valor “65f11f11-ds51-ds54-ds4-07c875c548f1” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.alteracao_cardapio[0],
+				).to.eq(
+					'O valor “65f11f11-ds51-ds54-ds4-07c875c548f1” não é um UUID válido',
+				)
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.alteracao_cardapio[0],
+				).to.eq(
+					'O valor “65f11f11-ds51-ds54-ds4-07c875c548f1” não é um UUID válido',
+				)
 			})
 		})
 
@@ -356,11 +422,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_para[0]).to.eq('O valor “” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.tipos_alimentacao_para[0],
+				).to.eq('O valor “” não é um UUID válido')
 			})
 		})
 
@@ -382,11 +451,16 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].tipos_alimentacao_para[0]).to.eq('O valor “6595ebe5-fd54-ds56-ds56-6347341f9797” não é um UUID válido')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.tipos_alimentacao_para[0],
+				).to.eq(
+					'O valor “6595ebe5-fd54-ds56-ds56-6347341f9797” não é um UUID válido',
+				)
 			})
 		})
 
@@ -408,11 +482,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].qtd_alunos[0]).to.eq('Certifque-se de que este valor seja maior ou igual a 0.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.qtd_alunos[0],
+				).to.eq('Certifque-se de que este valor seja maior ou igual a 0.')
 			})
 		})
 
@@ -434,11 +511,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].substituicoes[0].qtd_alunos[0]).to.eq('Um número inteiro válido é exigido.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].substituicoes[0]
+						.qtd_alunos[0],
+				).to.eq('Um número inteiro válido é exigido.')
 			})
 		})
 
@@ -460,11 +540,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].cancelado[0]).to.eq('Must be a valid boolean.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.cancelado[0],
+				).to.eq('Must be a valid boolean.')
 			})
 		})
 
@@ -486,11 +569,16 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].cancelado_em[0]).to.eq('Formato inválido para data e hora. Use um dos formatos a seguir: DD/MM/YYYY hh:mm:ss, YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z].')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.cancelado_em[0],
+				).to.eq(
+					'Formato inválido para data e hora. Use um dos formatos a seguir: DD/MM/YYYY hh:mm:ss, YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z].',
+				)
 			})
 		})
 
@@ -505,18 +593,23 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				qtd_alunos: 10,
 				cancelado: true,
 				cancelado_justificativa: 'teste automatizado api',
-				cancelado_em: data_atual.add(0, 'day').format('DD-MM-YYYY'),
+				cancelado_em: data_atual.format('DD-MM-YYYY'),
 				cancelado_por: null,
 				observacao: '<p>teste automatizado api</p>',
 				foi_solicitado_fora_do_prazo: true,
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].cancelado_em[0]).to.eq('Formato inválido para data e hora. Use um dos formatos a seguir: DD/MM/YYYY hh:mm:ss, YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z].')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.cancelado_em[0],
+				).to.eq(
+					'Formato inválido para data e hora. Use um dos formatos a seguir: DD/MM/YYYY hh:mm:ss, YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z].',
+				)
 			})
 		})
 
@@ -538,11 +631,16 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].cancelado_em[0]).to.eq('Formato inválido para data e hora. Use um dos formatos a seguir: DD/MM/YYYY hh:mm:ss, YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z].')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.cancelado_em[0],
+				).to.eq(
+					'Formato inválido para data e hora. Use um dos formatos a seguir: DD/MM/YYYY hh:mm:ss, YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z].',
+				)
 			})
 		})
 
@@ -564,11 +662,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].cancelado_por[0]).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.cancelado_por[0],
+				).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
 			})
 		})
 
@@ -584,17 +685,20 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				cancelado: true,
 				cancelado_justificativa: 'teste automatizado api',
 				cancelado_em: null,
-				cancelado_por: data_atual.add(5, 'day').format('DD-MM-YYYY'),
+				cancelado_por: validar_dia_semana(data_atual, 5).format('DD-MM-YYYY'),
 				observacao: '<p>teste automatizado api</p>',
 				foi_solicitado_fora_do_prazo: true,
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].datas_intervalo[0].cancelado_por[0]).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
+				expect(
+					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
+						.cancelado_por[0],
+				).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
 			})
 		})
 
@@ -616,11 +720,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].foi_solicitado_fora_do_prazo[0]).to.eq('Must be a valid boolean.')
+				expect(
+					response.allRequestResponses[0]['Response Body']
+						.foi_solicitado_fora_do_prazo[0],
+				).to.eq('Must be a valid boolean.')
 			})
 		})
 
@@ -642,11 +749,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: '',
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].terceirizada_conferiu_gestao[0]).to.eq('Must be a valid boolean.')
+				expect(
+					response.allRequestResponses[0]['Response Body']
+						.terceirizada_conferiu_gestao[0],
+				).to.eq('Must be a valid boolean.')
 			})
 		})
 
@@ -668,11 +778,14 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: '',
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].eh_alteracao_com_lanche_repetida[0]).to.eq('Must be a valid boolean.')
+				expect(
+					response.allRequestResponses[0]['Response Body']
+						.eh_alteracao_com_lanche_repetida[0],
+				).to.eq('Must be a valid boolean.')
 			})
 		})
 
@@ -698,9 +811,15 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.data_final[0]).to.eq('Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.')
-				expect(response.body.data_inicial[0]).to.eq('Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.')
-				expect(response.body.datas_intervalo[0].data[0]).to.eq('Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.')
+				expect(response.body.data_final[0]).to.eq(
+					'Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.',
+				)
+				expect(response.body.data_inicial[0]).to.eq(
+					'Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.',
+				)
+				expect(response.body.datas_intervalo[0].data[0]).to.eq(
+					'Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.',
+				)
 			})
 		})
 
@@ -726,7 +845,9 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'].non_field_errors[0]).to.eq('Não pode ser no passado')
+				expect(
+					response.allRequestResponses[0]['Response Body'].non_field_errors[0],
+				).to.eq('Não pode ser no passado')
 			})
 		})
 
@@ -748,11 +869,13 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(300, 'day').format('YYYY-MM-DD'),
+				data: '2025-11-15',
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.allRequestResponses[0]['Response Body'][0]).to.eq('Não é possível solicitar Lanche Emergencial para dia(s) não letivo(s)')
+				expect(response.allRequestResponses[0]['Response Body'][0]).to.eq(
+					'Não é possível solicitar Lanche Emergencial para dia(s) não letivo(s)',
+				)
 			})
 		})
 
@@ -774,25 +897,30 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(300, 'day').format('DD-MM-YYYU'),
+				data: data_atual.format('DD-MM-YYYU'),
 			}
 			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response) => {
-				expect(response.body.data_final[0]).to.eq('Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.')
-				expect(response.body.data_inicial[0]).to.eq('Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.')
-				expect(response.body.datas_intervalo[0].data[0]).to.eq('Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.')
+				expect(response.body.data_final[0]).to.eq(
+					'Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.',
+				)
+				expect(response.body.data_inicial[0]).to.eq(
+					'Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.',
+				)
+				expect(response.body.datas_intervalo[0].data[0]).to.eq(
+					'Formato inválido para data. Use um dos formatos a seguir: DD/MM/YYYY, YYYY-MM-DD.',
+				)
 			})
 		})
-
 	})
 
 	context('Casos de teste para a rota api/alteracoes_cardapio/id/', () => {
-
 		it('Validar usuario sem permissão de Get na rota api/alteracoes_cardapio/id/', () => {
 			var id = '3f42cdc6-f524-4364-af62-13a831abae5d/'
 			cy.validar_alteracoes_cardapio(id).then((response) => {
 				expect(response.status).to.eq(403)
-				expect(response.body.detail).to.eq('Você não tem permissão para executar essa ação.')
-
+				expect(response.body.detail).to.eq(
+					'Você não tem permissão para executar essa ação.',
+				)
 			})
 		})
 
@@ -830,7 +958,8 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(response.body.criado_em).to.exist
 				expect(response.body.criado_por).to.exist
 				expect(response.body.data_final).to.exist
-				expect(response.body.datas_intervalo).to.be.an('array').that.is.not.empty
+				expect(response.body.datas_intervalo).to.be.an('array').that.is.not
+					.empty
 				expect(response.body.foi_solicitado_fora_do_prazo).to.eq(false)
 				expect(response.body.id_externo).to.eq('3F42C')
 				expect(response.body.logs).to.be.an('array').that.is.not.empty
@@ -842,8 +971,10 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(response.body.rastro_dre).to.exist
 				expect(response.body.rastro_escola).to.exist
 				expect(response.body.rastro_lote).to.exist
-				expect(response.body.rastro_terceirizada.contatos).to.be.an('array').that.is.not.empty
-				expect(response.body.rastro_terceirizada.contratos).to.be.an('array').that.is.not.empty
+				expect(response.body.rastro_terceirizada.contatos).to.be.an('array')
+					.that.is.not.empty
+				expect(response.body.rastro_terceirizada.contratos).to.be.an('array')
+					.that.is.not.empty
 				expect(response.body.rastro_terceirizada.nome_fantasia).to.exist
 				expect(response.body.rastro_terceirizada.uuid).to.exist
 				expect(response.body.status).is.not.null
@@ -873,15 +1004,21 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				terceirizada_conferiu_gestao: true,
 				eh_alteracao_com_lanche_repetida: true,
 				criado_por: null,
-				data: data_atual.add(5, 'day').format('YYYY-MM-DD'),
+				data: validar_dia_semana(data_atual, 5).format('YYYY-MM-DD'),
 			}
-			cy.cadastrar_alteracoes_cardapio(dados_teste).then((response_exclusao) => {
-				var id = response_exclusao.allRequestResponses[0]['Response Body'].substituicoes[0].alteracao_cardapio
-				cy.excluir_alteracoes_cardapio(id).then((response) => {
-					expect(response.allRequestResponses[0]['Response Status']).to.eq(204)
-					expect(response.allRequestResponses[0]['Response Body']).to.exist
-				})
-			})
+			cy.cadastrar_alteracoes_cardapio(dados_teste).then(
+				(response_exclusao) => {
+					var id =
+						response_exclusao.allRequestResponses[0]['Response Body']
+							.substituicoes[0].alteracao_cardapio
+					cy.excluir_alteracoes_cardapio(id).then((response) => {
+						expect(response.allRequestResponses[0]['Response Status']).to.eq(
+							204,
+						)
+						expect(response.allRequestResponses[0]['Response Body']).to.exist
+					})
+				},
+			)
 		})
 
 		it('Validar DELETE com id inválido', () => {
@@ -890,104 +1027,71 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(response.allRequestResponses[0]['Response Status']).to.eq(404)
 			})
 		})
-
 	})
 
-	context('Casos de teste para a rota api/alteracoes_cardapio/id/relatorio', () => {
-
-		it('Validar GET de relatorio de alterações cardápio com sucesso', () => {
-			var id = '3f42cdc6-f524-4364-af62-13a831abae5d'
-			cy.validar_alteracoes_cardapio_relatorio(id).then((response) => {
-				expect(response.status).to.eq(200)
-				expect(response.allRequestResponses).to.be.an('array').that.is.not.empty
-				expect(response.allRequestResponses[0]['Response Body']).to.contain('%PDF')
-			})
-		})
-
-		it('Validar GET de relatorio de alterações cardápio com id inválido', () => {
-			var id = '3f42cdc6-f524-4364-af62-13a831adde5d'
-			cy.validar_alteracoes_cardapio_relatorio(id).then((response) => {
-				expect(response.status).to.eq(404)
-				expect(response.allRequestResponses).to.be.an('array').that.is.not.empty
-				expect(response.statusText).to.eq('Not Found')
-			})
-		})
-
-	})
-
-	context('Casos de teste para a rota /api/alteracoes-cardapio/com-lanche-do-mes-corrente/id', () => {
-
-		it('Validar GET lanche do mes corrente com sucesso', () => {
-			var id = 'e09ea350-7ffa-4f15-8ce3-8bae4bae2eb3/'
-			var usuario = Cypress.config('usuario_diretor_ue')
-			var senha = Cypress.config('senha')
-			cy.autenticar_login(usuario, senha)
-			cy.validar_alteracoes_cardapio_com_lanche_do_mes_corrente(id).then((response) => {
-				expect(response.status).to.eq(200)
-				expect(response.body.count).to.exist
-
-				const results = response.body.results
-				expect(results).to.exist
-
-				results.forEach((result) => {
-					const escola = result.escola
-					const lote = escola.lote
-					const contratos = lote.contratos_do_lote
-					const datasIntervalo = result.datas_intervalo
-
-					expect(escola.codigo_eol).to.exist
-					expect(escola.nome).to.exist
-
-					expect(lote.nome).to.exist
-					contratos.forEach((contrato) => {
-						expect(contrato.uuid).to.exist
-					})
-
-					datasIntervalo.forEach((data) => {
-						expect(data.alteracao_cardapio).to.exist
-					})
-
+	context(
+		'Casos de teste para a rota api/alteracoes_cardapio/id/relatorio',
+		() => {
+			it('Validar GET de relatorio de alterações cardápio com sucesso', () => {
+				var id = '3f42cdc6-f524-4364-af62-13a831abae5d'
+				cy.validar_alteracoes_cardapio_relatorio(id).then((response) => {
+					expect(response.status).to.eq(200)
+					expect(response.allRequestResponses).to.be.an('array').that.is.not
+						.empty
+					expect(response.allRequestResponses[0]['Response Body']).to.contain(
+						'%PDF',
+					)
 				})
 			})
-		})
-	})
 
-	context('Casos de teste para a rota /api/alteracoes-cardapio/minhas-solicitacoes/', () => {
-
-		it('Validar GET minhas solicitacoes com sucesso', () => {
-			var usuario = Cypress.config('usuario_diretor_ue')
-			var senha = Cypress.config('senha')
-			cy.autenticar_login(usuario, senha)
-			cy.validar_alteracoes_cardapio_minhas_solicitacoes().then((response) => {
-				expect(response.status).to.eq(200)
-				expect(response.body.count).to.exist
-
-				const results = response.body.results
-				expect(results).to.exist
-
-				results.forEach((result) => {
-					const escola = result.escola
-					const lote = escola.lote
-					const contratos = lote.contratos_do_lote
-					const datasIntervalo = result.datas_intervalo
-
-					expect(escola.codigo_eol).to.exist
-					expect(escola.nome).to.exist
-
-					expect(lote.nome).to.exist
-					contratos.forEach((contrato) => {
-						expect(contrato.uuid).to.exist
-					})
-
-					datasIntervalo.forEach((data) => {
-						expect(data.alteracao_cardapio).to.exist
-					})
-
+			it('Validar GET de relatorio de alterações cardápio com id inválido', () => {
+				var id = '3f42cdc6-f524-4364-af62-13a831adde5d'
+				cy.validar_alteracoes_cardapio_relatorio(id).then((response) => {
+					expect(response.status).to.eq(404)
+					expect(response.allRequestResponses).to.be.an('array').that.is.not
+						.empty
+					expect(response.statusText).to.eq('Not Found')
 				})
 			})
-		})
-	})
+		},
+	)
 
+	context(
+		'Casos de teste para a rota /api/alteracoes-cardapio/minhas-solicitacoes/',
+		() => {
+			it('Validar GET minhas solicitacoes com sucesso', () => {
+				var usuario = Cypress.config('usuario_diretor_ue')
+				var senha = Cypress.config('senha')
+				cy.autenticar_login(usuario, senha)
+				cy.validar_alteracoes_cardapio_minhas_solicitacoes().then(
+					(response) => {
+						expect(response.status).to.eq(200)
+						expect(response.body.count).to.exist
+
+						const results = response.body.results
+						expect(results).to.exist
+
+						results.forEach((result) => {
+							const escola = result.escola
+							const lote = escola.lote
+							const contratos = lote.contratos_do_lote
+							const datasIntervalo = result.datas_intervalo
+
+							expect(escola.codigo_eol).to.exist
+							expect(escola.nome).to.exist
+
+							expect(lote.nome).to.exist
+							contratos.forEach((contrato) => {
+								expect(contrato.uuid).to.exist
+							})
+
+							datasIntervalo.forEach((data) => {
+								expect(data.alteracao_cardapio).to.exist
+							})
+						})
+					},
+				)
+			})
+		},
+	)
 })
-
-
