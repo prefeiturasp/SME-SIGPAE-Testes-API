@@ -14,8 +14,7 @@ pipeline {
     }
 
     environment {
-        JOB_DISPLAY_NAME = 'SIGPAE-Testes-HML'
-        WORKSPACE_DIR = "/home/jenkins/agent/workspace/POC_-_Testes_-_SIGPAE_${BRANCH_NAME}"
+        WORKSPACE_DIR = "/home/jenkins/agent/workspace/SIGPAE-Testes-HML_${BRANCH_NAME}"
     }
 
     stages {
