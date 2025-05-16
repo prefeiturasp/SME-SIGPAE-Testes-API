@@ -1,5 +1,6 @@
 pipeline {
     triggers { cron('00 20 * * 0-4') }
+    
     options {
         buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
         disableConcurrentBuilds()
@@ -14,6 +15,7 @@ pipeline {
     }
 
     environment {
+        JOB_DISPLAY_NAME = 'SIGPAE-Testes-HML'
         WORKSPACE_DIR = "/home/jenkins/agent/workspace/SIGPAE-Testes-HML_${BRANCH_NAME}"
     }
 
@@ -27,13 +29,15 @@ pipeline {
         stage('Instalar Dependências') {
             steps {
                 script {
-                    sh 'mkdir -p /home/jenkins/.cache/Cypress'
-                    sh 'chmod -R 777 /home/jenkins/.cache/Cypress'
-                    sh 'wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc >/dev/null'
-                    sh 'mkdir -p /usr/share/man/man1/ && apt update && apt install -y default-jre zip'
-                    sh 'npm install'
-                    sh 'npm install @shelex/cypress-allure-plugin'
-                    sh 'npm install allure-mocha --save-dev'
+                    sh '''
+                        mkdir -p /home/jenkins/.cache/Cypress
+                        chmod -R 777 /home/jenkins/.cache/Cypress
+                        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc >/dev/null
+                        mkdir -p /usr/share/man/man1/ && apt update && apt install -y default-jre zip
+                        npm install
+                        npm install @shelex/cypress-allure-plugin
+                        npm install allure-mocha --save-dev
+                    '''
                 }
             }
         }
@@ -57,12 +61,20 @@ pipeline {
                 script {
                     sh '''
                         npm install -g allure-commandline
-                        echo $PATH 
+                        echo $PATH
+
+                        if [ ! -d "$WORKSPACE_DIR/allure-results" ]; then
+                            echo "Diretório $WORKSPACE_DIR/allure-results não encontrado. Abortando geração do relatório."
+                            exit 1
+                        fi
+
                         chmod -R 777 $WORKSPACE_DIR/allure-results
                         allure generate $WORKSPACE_DIR/allure-results --clean --output $WORKSPACE_DIR/allure-report
+
                         if [ -f $WORKSPACE_DIR/allure-report.zip ]; then
                             rm -f $WORKSPACE_DIR/allure-report.zip
                         fi
+
                         zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results
                     '''
                 }
@@ -80,17 +92,21 @@ pipeline {
                 }
             }
         }
+
         success {
-            sendTelegram("☑️ Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure")
+            sendTelegram("☑️ Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure")
         }
+
         unstable {
-            sendTelegram("💣 Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure")
+            sendTelegram("💣 Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure")
         }
+
         failure {
-            sendTelegram("💥 Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure")
+            sendTelegram("💥 Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure")
         }
+
         aborted {
-            sendTelegram("😥 Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console")
+            sendTelegram("😥 Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console")
         }
     }
 }
