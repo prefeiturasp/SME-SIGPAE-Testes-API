@@ -14,7 +14,7 @@ pipeline {
     }
 
     environment {
-        WORKSPACE_DIR = "/home/jenkins/agent/workspace/SIGPAE-Testes-HML_${BRANCH_NAME}"
+        WORKSPACE_DIR = "/home/jenkins/agent/workspace/POC_-_Testes_-_SIGPAE_${BRANCH_NAME}"
     }
 
     stages {
@@ -81,16 +81,16 @@ pipeline {
             }
         }
         success { 
-            sendTelegram("☑️ Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
+            sendTelegram("☑️ Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
         }
         unstable { 
-            sendTelegram("💣 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure") 
+            sendTelegram("💣 Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure") 
         }
         failure { 
-            sendTelegram("💥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure") 
+            sendTelegram("💥 Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure") 
         }
         aborted { 
-            sendTelegram ("😥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console") 
+            sendTelegram ("😥 Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console") 
         }
     }
 }
