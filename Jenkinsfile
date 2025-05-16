@@ -52,16 +52,16 @@ pipeline {
             }
         }
 
-        stage('Generate Allure Report') { 
+        stage('Generate Allure Report') {
             steps {
                 script {
                     sh '''
                         npm install -g allure-commandline --save-dev
                         echo $PATH 
-                        chmod -R 777 $WORKSPACE_DIR/allure-results
-                        allure generate $WORKSPACE_DIR/allure-results --clean --output $WORKSPACE_DIR/allure-report
-                        if [ -f $WORKSPACE_DIR/allure-report.zip ]; then
-                            rm -f $WORKSPACE_DIR/allure-report.zip
+                        chmod -R 777 allure-results
+                        allure generate allure-results --clean --output allure-report
+                        if [ -f allure-report.zip ]; then
+                            rm -f allure-report.zip
                         fi
                         zip -r allure-results-${BUILD_NUMBER}-$(date +"%d-%m-%Y").zip allure-results
                     '''
@@ -73,37 +73,41 @@ pipeline {
     post {
         always {
             script {
-                sh 'chmod -R 777 $WORKSPACE_DIR'
+                sh 'chmod -R 777 .'
                 if (currentBuild.result == 'SUCCESS' || currentBuild.result == 'FAILURE') {
                     allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
                     archiveArtifacts artifacts: 'allure-results-*.zip', fingerprint: true
                 }
             }
         }
-        success { 
-            sendTelegram("☑️ Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure") 
+        success {
+            sendTelegram("☑️ Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure")
         }
-        unstable { 
-            sendTelegram("💣 Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure") 
+        unstable {
+            sendTelegram("💣 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure")
         }
-        failure { 
-            sendTelegram("💥 Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure") 
+        failure {
+            sendTelegram("💥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure")
         }
-        aborted { 
-            sendTelegram ("😥 Job Name: SIGPAE-Testes-HML \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console") 
+        aborted {
+            sendTelegram("😥 Job Name: ${JOB_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console")
         }
     }
 }
 
 def sendTelegram(message) {
     def encodedMessage = URLEncoder.encode(message, "UTF-8")
-    withCredentials([string(credentialsId: 'telegramTokensigpae', variable: 'TOKEN'),
-    string(credentialsId: 'telegramChatIdsigpae', variable: 'CHAT_ID')]) {
-        response = httpRequest (consoleLogResponseBody: true,
-                contentType: 'APPLICATION_JSON',
-                httpMode: 'GET',
-                url: 'https://api.telegram.org/bot' + "$TOKEN" + '/sendMessage?text=' + encodedMessage + '&chat_id=' + "$CHAT_ID" + '&disable_web_page_preview=true',
-                validResponseCodes: '200')
+    withCredentials([
+        string(credentialsId: 'telegramTokensigpae', variable: 'TOKEN'),
+        string(credentialsId: 'telegramChatIdsigpae', variable: 'CHAT_ID')
+    ]) {
+        response = httpRequest(
+            consoleLogResponseBody: true,
+            contentType: 'APPLICATION_JSON',
+            httpMode: 'GET',
+            url: 'https://api.telegram.org/bot' + "$TOKEN" + '/sendMessage?text=' + encodedMessage + '&chat_id=' + "$CHAT_ID" + '&disable_web_page_preview=true',
+            validResponseCodes: '200'
+        )
         return response
     }
 }
