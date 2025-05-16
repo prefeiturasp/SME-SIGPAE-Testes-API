@@ -14,7 +14,6 @@ pipeline {
     }
 
     environment {
-        JOB_DISPLAY_NAME = 'SIGPAE-Testes-HML'
         WORKSPACE_DIR = "/home/jenkins/agent/workspace/SIGPAE-Testes-HML_${BRANCH_NAME}"
     }
 
@@ -57,7 +56,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        npm install -g allure-commandline --save-dev
+                        npm install -g allure-commandline
                         echo $PATH 
                         chmod -R 777 $WORKSPACE_DIR/allure-results
                         allure generate $WORKSPACE_DIR/allure-results --clean --output $WORKSPACE_DIR/allure-report
@@ -82,16 +81,16 @@ pipeline {
             }
         }
         success {
-            sendTelegram("☑️ Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure")
+            sendTelegram("☑️ Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Success \nLog: \n${env.BUILD_URL}allure")
         }
         unstable {
-            sendTelegram("💣 Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure")
+            sendTelegram("💣 Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Unstable \nLog: \n${env.BUILD_URL}allure")
         }
         failure {
-            sendTelegram("💥 Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure")
+            sendTelegram("💥 Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Failure \nLog: \n${env.BUILD_URL}allure")
         }
         aborted {
-            sendTelegram("😥 Job Name: ${JOB_DISPLAY_NAME} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console")
+            sendTelegram("😥 Job Name: ${env.JOB_NAME.tokenize('/').last()} \nBuild: ${BUILD_DISPLAY_NAME} \nStatus: Aborted \nLog: \n${env.BUILD_URL}console")
         }
     }
 }
@@ -106,7 +105,7 @@ def sendTelegram(message) {
             consoleLogResponseBody: true,
             contentType: 'APPLICATION_JSON',
             httpMode: 'GET',
-            url: 'https://api.telegram.org/bot' + "$TOKEN" + '/sendMessage?text=' + encodedMessage + '&chat_id=' + "$CHAT_ID" + '&disable_web_page_preview=true',
+            url: "https://api.telegram.org/bot${TOKEN}/sendMessage?text=${encodedMessage}&chat_id=${CHAT_ID}&disable_web_page_preview=true",
             validResponseCodes: '200'
         )
         return response
