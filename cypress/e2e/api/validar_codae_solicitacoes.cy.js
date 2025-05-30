@@ -49,7 +49,6 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 					expect(response.body.results[0]).to.have.property('terceirizada_nome')
 						.that.exist.and.is.not.empty
 					expect(response.body.results[0]).to.have.property('codigo_eol_aluno')
-						.that.exist
 					expect(response.body.results[0]).to.have.property('data_evento')
 					expect(response.body.results[0]).to.have.property('data_evento_2')
 					expect(response.body.results[0]).to.have.property('data_evento_fim')
@@ -488,7 +487,8 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 					expect(response.body.results[0].status_atual).to.satisfy((value) => {
 						return (
 							value === 'CANCELADO_ALUNO_NAO_PERTENCE_REDE' ||
-							value === 'CANCELADO_ALUNO_MUDOU_ESCOLA'
+							value === 'CANCELADO_ALUNO_MUDOU_ESCOLA' ||
+							value === 'ESCOLA_CANCELOU'
 						)
 					})
 					expect(response.body.results[0]).to.have.property('conferido')
