@@ -2315,7 +2315,7 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 		it('Validar GET de detalhar com log com UUID inválido', () => {
 			var uuid = '53886ad8-cb8b-4175-853e-de087aaaaaaa'
 
-			cy.detalhar_com_log(uuid).then((response) => {
+			cy.validar_detalhar_com_log(uuid).then((response) => {
 				expect(response.status).to.eq(404)
 			})
 		})
@@ -2363,7 +2363,7 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 			})
 		})
 
-		it.only('Validar GET da dashboard com filtros vazios com sucesso', () => {
+		it('Validar GET da dashboard com filtros vazios com sucesso', () => {
 			var filtros = '?numero_cronograma=&nome_produto='
 
 			cy.validar_dashboard_com_filtro(filtros).then((response) => {
@@ -2408,93 +2408,101 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 			})
 		})
 
-		it.only('Validar GET da dashboard com filtros preenchidos com sucesso', () => {
-			var filtros = '?numero_cronograma=&nome_produto='
+		it('Validar GET da dashboard com filtros preenchidos com sucesso', () => {
+			cy.validar_dashboard_com_filtro('').then((responseList) => {
+				var numeroCronograma = responseList.body.results[0].dados[0].numero
+				var nomeProduto = responseList.body.results[0].dados[0].produto
 
-			cy.validar_dashboard_com_filtro(filtros).then((response) => {
-				expect(response.status).to.eq(200)
-				expect(response.body.results[0])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_E_ENVIADO_AO_FORNECEDOR')
-				expect(response.body.results[0])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[0].dados[0]).to.have.property('uuid').that
-					.exist
-				expect(response.body.results[0].dados[0]).to.have.property('numero')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('status')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('empresa')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('produto')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property(
-					'log_mais_recente',
-				).that.exist
-				expect(response.body.results[1])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_FORNECEDOR')
-				expect(response.body.results[1])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[2])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_DILOG_ABASTECIMENTO')
-				expect(response.body.results[2])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[3])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_CODAE')
-				expect(response.body.results[3])
-					.to.have.property('dados')
-					.to.be.an('array')
+				var filtros =
+					'?numero_cronograma=' +
+					numeroCronograma +
+					'&nome_produto=' +
+					nomeProduto
+
+				cy.validar_dashboard_com_filtro(filtros).then((response) => {
+					expect(response.status).to.eq(200)
+
+					const dados0 = response.body.results[0]?.dados || []
+					const dados1 = response.body.results[1]?.dados || []
+					const dados2 = response.body.results[2]?.dados || []
+					const dados3 = response.body.results[3]?.dados || []
+
+					if (dados0.length > 0) {
+						expect(dados0[0]).to.have.property('numero').to.eq(numeroCronograma)
+						expect(dados0[0]).to.have.property('produto').to.eq(nomeProduto)
+					} else if (dados1.length > 0) {
+						expect(dados1[0]).to.have.property('numero').to.eq(numeroCronograma)
+						expect(dados1[0]).to.have.property('produto').to.eq(nomeProduto)
+					} else if (dados2.length > 0) {
+						expect(dados2[0]).to.have.property('numero').to.eq(numeroCronograma)
+						expect(dados2[0]).to.have.property('produto').to.eq(nomeProduto)
+					} else if (dados3.length > 0) {
+						expect(dados3[0]).to.have.property('numero').to.eq(numeroCronograma)
+						expect(dados3[0]).to.have.property('produto').to.eq(nomeProduto)
+					}
+
+					expect(response.body.results[0])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_E_ENVIADO_AO_FORNECEDOR')
+					expect(response.body.results[1])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_FORNECEDOR')
+					expect(response.body.results[2])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_DILOG_ABASTECIMENTO')
+					expect(response.body.results[3])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_CODAE')
+				})
 			})
 		})
 
 		it('Validar GET da dashboard com filtro nome do produto com sucesso', () => {
-			var filtros = '?numero_cronograma=&nome_produto='
+			cy.validar_dashboard_com_filtro('').then((responseList) => {
+				var nomeProduto = responseList.body.results[0].dados[0].produto
 
-			cy.validar_dashboard_com_filtro(filtros).then((response) => {
-				expect(response.status).to.eq(200)
-				expect(response.body.results[0])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_E_ENVIADO_AO_FORNECEDOR')
-				expect(response.body.results[0])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[0].dados[0]).to.have.property('uuid').that
-					.exist
-				expect(response.body.results[0].dados[0]).to.have.property('numero')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('status')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('empresa')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('produto')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property(
-					'log_mais_recente',
-				).that.exist
-				expect(response.body.results[1])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_FORNECEDOR')
-				expect(response.body.results[1])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[2])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_DILOG_ABASTECIMENTO')
-				expect(response.body.results[2])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[3])
-					.to.have.property('status')
-					.to.be.eq('ASSINADO_CODAE')
-				expect(response.body.results[3])
-					.to.have.property('dados')
-					.to.be.an('array')
+				var filtros = '?numero_cronograma=&nome_produto=' + nomeProduto
+
+				cy.validar_dashboard_com_filtro(filtros).then((response) => {
+					expect(response.status).to.eq(200)
+					expect(response.body.results[0])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_E_ENVIADO_AO_FORNECEDOR')
+					expect(response.body.results[0])
+						.to.have.property('dados')
+						.to.be.an('array')
+					expect(response.body.results[0].dados[0]).to.have.property('uuid')
+						.that.exist
+					expect(response.body.results[0].dados[0]).to.have.property('numero')
+						.that.exist
+					expect(response.body.results[0].dados[0]).to.have.property('status')
+						.that.exist
+					expect(response.body.results[0].dados[0]).to.have.property('empresa')
+						.that.exist
+					expect(response.body.results[0].dados[0]).to.have.property('produto')
+						.that.exist
+					expect(response.body.results[0].dados[0]).to.have.property(
+						'log_mais_recente',
+					).that.exist
+					expect(response.body.results[1])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_FORNECEDOR')
+					expect(response.body.results[1])
+						.to.have.property('dados')
+						.to.be.an('array')
+					expect(response.body.results[2])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_DILOG_ABASTECIMENTO')
+					expect(response.body.results[2])
+						.to.have.property('dados')
+						.to.be.an('array')
+					expect(response.body.results[3])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_CODAE')
+					expect(response.body.results[3])
+						.to.have.property('dados')
+						.to.be.an('array')
+				})
 			})
 		})
 
@@ -2503,88 +2511,104 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 
 			cy.validar_dashboard_com_filtro(filtros).then((response) => {
 				expect(response.status).to.eq(200)
+
+				const dados0 = response.body.results[0]?.dados || []
+				const dados1 = response.body.results[1]?.dados || []
+				const dados2 = response.body.results[2]?.dados || []
+				const dados3 = response.body.results[3]?.dados || []
+
 				expect(response.body.results[0])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_E_ENVIADO_AO_FORNECEDOR')
-				expect(response.body.results[0])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[0].dados[0]).to.have.property('uuid').that
-					.exist
-				expect(response.body.results[0].dados[0]).to.have.property('numero')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('status')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('empresa')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('produto')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property(
-					'log_mais_recente',
-				).that.exist
+				expect(expect(dados0.length).to.eq(0))
+
 				expect(response.body.results[1])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_FORNECEDOR')
-				expect(response.body.results[1])
-					.to.have.property('dados')
-					.to.be.an('array')
+				expect(expect(dados1.length).to.eq(0))
+
 				expect(response.body.results[2])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_DILOG_ABASTECIMENTO')
-				expect(response.body.results[2])
-					.to.have.property('dados')
-					.to.be.an('array')
+				expect(expect(dados2.length).to.eq(0))
+
 				expect(response.body.results[3])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_CODAE')
-				expect(response.body.results[3])
-					.to.have.property('dados')
-					.to.be.an('array')
+				expect(expect(dados3.length).to.eq(0))
 			})
 		})
 
 		it('Validar GET da dashboard com filtro numero do cronograma com sucesso', () => {
-			var filtros = '?numero_cronograma=&nome_produto='
+			cy.validar_dashboard_com_filtro('').then((responseList) => {
+				var numeroCronograma = responseList.body.results[0].dados[0].numero
 
+				var filtros =
+					'?numero_cronograma=' + numeroCronograma + '&nome_produto='
+
+				cy.validar_dashboard_com_filtro(filtros).then((response) => {
+					expect(response.status).to.eq(200)
+
+					const dados0 = response.body.results[0]?.dados || []
+					const dados1 = response.body.results[1]?.dados || []
+					const dados2 = response.body.results[2]?.dados || []
+					const dados3 = response.body.results[3]?.dados || []
+
+					if (dados0.length > 0) {
+						expect(dados0[0]).to.have.property('numero').to.eq(numeroCronograma)
+					} else if (dados1.length > 0) {
+						expect(dados1[0]).to.have.property('numero').to.eq(numeroCronograma)
+					} else if (dados2.length > 0) {
+						expect(dados2[0]).to.have.property('numero').to.eq(numeroCronograma)
+					} else if (dados3.length > 0) {
+						expect(dados3[0]).to.have.property('numero').to.eq(numeroCronograma)
+					}
+
+					expect(response.body.results[0])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_E_ENVIADO_AO_FORNECEDOR')
+					expect(response.body.results[1])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_FORNECEDOR')
+					expect(response.body.results[2])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_DILOG_ABASTECIMENTO')
+					expect(response.body.results[3])
+						.to.have.property('status')
+						.to.be.eq('ASSINADO_CODAE')
+				})
+			})
+		})
+
+		it('Validar GET da dashboard com filtro numero do cronograma não existente', () => {
+			var filtros = '?numero_cronograma=1234567890&nome_produto='
 			cy.validar_dashboard_com_filtro(filtros).then((response) => {
 				expect(response.status).to.eq(200)
+
+				const dados0 = response.body.results[0]?.dados || []
+				const dados1 = response.body.results[1]?.dados || []
+				const dados2 = response.body.results[2]?.dados || []
+				const dados3 = response.body.results[3]?.dados || []
+
 				expect(response.body.results[0])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_E_ENVIADO_AO_FORNECEDOR')
-				expect(response.body.results[0])
-					.to.have.property('dados')
-					.to.be.an('array')
-				expect(response.body.results[0].dados[0]).to.have.property('uuid').that
-					.exist
-				expect(response.body.results[0].dados[0]).to.have.property('numero')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('status')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('empresa')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property('produto')
-					.that.exist
-				expect(response.body.results[0].dados[0]).to.have.property(
-					'log_mais_recente',
-				).that.exist
+				expect(expect(dados0.length).to.eq(0))
+
 				expect(response.body.results[1])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_FORNECEDOR')
-				expect(response.body.results[1])
-					.to.have.property('dados')
-					.to.be.an('array')
+				expect(expect(dados1.length).to.eq(0))
+
 				expect(response.body.results[2])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_DILOG_ABASTECIMENTO')
-				expect(response.body.results[2])
-					.to.have.property('dados')
-					.to.be.an('array')
+				expect(expect(dados2.length).to.eq(0))
+
 				expect(response.body.results[3])
 					.to.have.property('status')
 					.to.be.eq('ASSINADO_CODAE')
-				expect(response.body.results[3])
-					.to.have.property('dados')
-					.to.be.an('array')
+				expect(expect(dados3.length).to.eq(0))
 			})
 		})
 	})
