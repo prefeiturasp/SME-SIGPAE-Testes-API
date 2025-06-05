@@ -64,3 +64,66 @@ Cypress.Commands.add('validar_dashboard_com_filtro', (filtro) => {
 		failOnStatusCode: false,
 	})
 })
+
+Cypress.Commands.add('validar_lista_cronogramas_cadastro', () => {
+	cy.request({
+		method: 'GET',
+		url:
+			Cypress.config('baseUrl') + 'api/cronogramas/lista-cronogramas-cadastro/',
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('validar_lista_cronogramas_ficha_recebimento', () => {
+	cy.request({
+		method: 'GET',
+		url:
+			Cypress.config('baseUrl') +
+			'api/cronogramas/lista-cronogramas-ficha-recebimento/',
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('validar_listagem_relatorio', () => {
+	cy.request({
+		method: 'GET',
+		url: Cypress.config('baseUrl') + 'api/cronogramas/listagem-relatorio/',
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('validar_opcoes_etapas', () => {
+	cy.request({
+		method: 'GET',
+		url: Cypress.config('baseUrl') + 'api/cronogramas/opcoes-etapas/',
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})
+
+Cypress.Commands.add('validar_rascunhos', () => {
+	cy.request({
+		method: 'GET',
+		url: Cypress.config('baseUrl') + 'api/cronogramas/rascunhos/',
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})

@@ -2611,5 +2611,130 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 				expect(expect(dados3.length).to.eq(0))
 			})
 		})
+
+		it('Validar GET de lista cronogramas ficha recebimento com sucesso', () => {
+			cy.validar_lista_cronogramas_ficha_recebimento().then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body.results).to.be.an('array')
+				expect(response.body.results[0]).to.have.property('uuid').that.exist
+				expect(response.body.results[0]).to.have.property('numero').that.exist
+				expect(response.body.results[0]).to.have.property(
+					'pregao_chamada_publica',
+				).that.exist
+				expect(response.body.results[0]).to.have.property('nome_produto').that
+					.exist
+			})
+		})
+
+		it('Validar GET de lista cronogramas cadastro com sucesso', () => {
+			cy.validar_lista_cronogramas_cadastro().then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body.results).to.be.an('array')
+				expect(response.body.results[0]).to.have.property('uuid').that.exist
+				expect(response.body.results[0]).to.have.property('numero').that.exist
+				expect(response.body.results[0]).to.have.property(
+					'pregao_chamada_publica',
+				).that.exist
+				expect(response.body.results[0]).to.have.property('nome_produto').that
+					.exist
+			})
+		})
+
+		it.only('Validar GET de listagem de relatório com sucesso', () => {
+			cy.validar_listagem_relatorio().then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('count')
+				expect(response.body).to.have.property('next')
+				expect(response.body).to.have.property('previous')
+				expect(response.body).to.have.property('results')
+				expect(response.body.results).to.be.an('array')
+				expect(response.body.results[0]).to.have.property('uuid').that.exist.and
+					.is.not.empty
+				expect(response.body.results[0]).to.have.property('numero').that.exist
+					.and.is.not.empty
+				expect(response.body.results[0]).to.have.property('produto').that.exist
+					.and.is.not.empty
+				expect(response.body.results[0]).to.have.property('empresa').that.exist
+					.and.is.not.empty
+				expect(response.body.results[0]).to.have.property(
+					'qtd_total_programada',
+				).that.exist
+				expect(response.body.results[0]).to.have.property('armazem').that.exist
+					.and.is.not.empty
+				expect(response.body.results[0]).to.have.property('status').that.exist
+					.and.is.not.empty
+				expect(response.body.results[0]).to.have.property('marca').that.exist
+					.and.is.not.empty
+				expect(response.body.results[0]).to.have.property(
+					'custo_unitario_produto',
+				).that.exist.and.is.not.empty
+				expect(response.body.results[0]).to.have.property('etapas').that.exist
+				expect(response.body.results[0].etapas).to.be.an('array')
+				expect(response.body.results[0].etapas[0]).to.have.property('uuid').that
+					.exist
+				expect(response.body.results[0].etapas[0]).to.have.property(
+					'numero_empenho',
+				).that.exist
+				expect(response.body.results[0].etapas[0]).to.have.property(
+					'qtd_total_empenho',
+				).that.exist
+				expect(response.body.results[0].etapas[0]).to.have.property('etapa')
+					.that.exist
+				expect(response.body.results[0].etapas[0]).to.have.property('parte')
+					.that.exist
+				expect(response.body.results[0].etapas[0]).to.have.property(
+					'data_programada',
+				).that.exist
+				expect(response.body.results[0].etapas[0]).to.have.property(
+					'quantidade',
+				).that.exist
+				expect(response.body.results[0].etapas[0]).to.have.property(
+					'total_embalagens',
+				).that.exist
+				expect(response.body.results[0].etapas[0]).to.have.property(
+					'desvinculada_recebimento',
+				).that.exist
+				expect(response.body).to.have.property('totalizadores').that.exist
+				expect(response.body.totalizadores).to.have.property(
+					'Assinado e Enviado ao Fornecedor',
+				).that.exist
+				expect(response.body.totalizadores).to.have.property(
+					'Solicitado Alteração',
+				).that.exist
+				expect(response.body.totalizadores).to.have.property('Assinado CODAE')
+					.that.exist
+				expect(response.body.totalizadores).to.have.property('Alteração CODAE')
+					.that.exist
+				expect(response.body.totalizadores).to.have.property(
+					'Assinado Abastecimento',
+				).that.exist
+				expect(response.body.totalizadores).to.have.property(
+					'Assinado Fornecedor',
+				).that.exist
+				expect(response.body.totalizadores).to.have.property('Rascunho').that
+					.exist
+			})
+		})
+
+		it('Validar GET de opções etapas com sucesso', () => {
+			cy.validar_opcoes_etapas().then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.be.an('array')
+				expect(response.body[0]).to.have.property('uuid').that.exist
+				expect(response.body[0]).to.have.property('value').to.eq('Etapa 1')
+			})
+		})
+
+		it.only('Validar GET de rascunhos com sucesso', () => {
+			cy.validar_rascunhos().then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body.results).to.be.an('array')
+				// FAZER UM IF > 0
+				expect(response.body.results[0]).to.have.property('uuid').that.exist
+				expect(response.body.results[0]).to.have.property('numero').that.exist
+				expect(response.body.results[0]).to.have.property('alterado_em').that
+					.exist
+			})
+		})
 	})
 })
