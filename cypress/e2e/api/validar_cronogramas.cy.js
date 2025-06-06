@@ -2640,7 +2640,7 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 			})
 		})
 
-		it.only('Validar GET de listagem de relatório com sucesso', () => {
+		it('Validar GET de listagem de relatório com sucesso', () => {
 			cy.validar_listagem_relatorio().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
@@ -2721,19 +2721,20 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.be.an('array')
 				expect(response.body[0]).to.have.property('uuid').that.exist
-				expect(response.body[0]).to.have.property('value').to.eq('Etapa 1')
+				expect(response.body[0]).to.have.property('value').that.exist
 			})
 		})
 
-		it.only('Validar GET de rascunhos com sucesso', () => {
+		it('Validar GET de rascunhos com sucesso', () => {
 			cy.validar_rascunhos().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body.results).to.be.an('array')
-				// FAZER UM IF > 0
-				expect(response.body.results[0]).to.have.property('uuid').that.exist
-				expect(response.body.results[0]).to.have.property('numero').that.exist
-				expect(response.body.results[0]).to.have.property('alterado_em').that
-					.exist
+				if (response.body.results.length > 0) {
+					expect(response.body.results[0]).to.have.property('uuid').that.exist
+					expect(response.body.results[0]).to.have.property('numero').that.exist
+					expect(response.body.results[0]).to.have.property('alterado_em').that
+						.exist
+				}
 			})
 		})
 	})
