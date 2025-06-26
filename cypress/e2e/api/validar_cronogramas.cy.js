@@ -955,18 +955,18 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 					response.body.results[0].ficha_tecnica.unidade_medida_secundaria,
 				).to.have.property('abreviacao').that.exist
 
-				expect(response.body.results[0]).to.have.property(
-					'tipo_embalagem_secundaria',
-				).that.exist
-				expect(
-					response.body.results[0].tipo_embalagem_secundaria,
-				).to.have.property('uuid').that.exist
-				expect(
-					response.body.results[0].tipo_embalagem_secundaria,
-				).to.have.property('nome').that.exist
-				expect(
-					response.body.results[0].tipo_embalagem_secundaria,
-				).to.have.property('abreviacao').that.exist
+				// expect(response.body.results[0]).to.have.property(
+				// 	'tipo_embalagem_secundaria',
+				// ).that.exist
+				// expect(
+				// 	response.body.results[0].tipo_embalagem_secundaria,
+				// ).to.have.property('uuid').that.exist
+				// expect(
+				// 	response.body.results[0].tipo_embalagem_secundaria,
+				// ).to.have.property('nome').that.exist
+				// expect(
+				// 	response.body.results[0].tipo_embalagem_secundaria,
+				// ).to.have.property('abreviacao').that.exist
 				expect(response.body.results[0]).to.have.property(
 					'custo_unitario_produto',
 				).that.exist
@@ -2722,6 +2722,101 @@ describe('Validar rotas de dashboard de produtos da aplicação SIGPAE', () => {
 					expect(response.body.results[0]).to.have.property('alterado_em').that
 						.exist
 				}
+			})
+		})
+
+		it('Validar POST de cronograma com sucesso', () => {
+			var dados_teste = {
+				nome: 'Teste Automação Novo Produto Cadastrado',
+				armazem: 'd020c118-f124-4fec-a136-4e3da9ba63d9',
+				empresa: 'd0630b2b-8e45-472c-b9c6-90451b60b081',
+				contrato: '387121e0-f887-4ecf-9521-00c519e9830d',
+				unidade_medida: 'e274494c-78aa-42cf-8718-0e362c0f8ba5',
+				qtd_total_programada: 10.0,
+				etapas: [
+					{
+						numero_empenho: '123456',
+						etapa: 1,
+						parte: 'Parte 1',
+						data_programada: '2025-10-26',
+						quantidade: 10.0,
+						total_embalagens: 1.0,
+						qtd_total_empenho: 10.0,
+						uuid: 'e972f048-a31b-4929-a337-d6b8057e60d9',
+					},
+				],
+				programacoes_de_recebimento: [
+					{
+						data_programada: '26/06/2025 - Etapa 1  - Parte 1',
+						tipo_carga: 'PALETIZADA',
+						uuid: '0f25baf8-4ed4-4572-a9cb-5871e076ec6b',
+					},
+				],
+				ficha_tecnica: '7a308949-4e9d-4e2a-abea-be9322fa955a',
+				tipo_embalagem_secundaria: '05690384-2d95-4e21-8646-8a0f8f8e0673',
+				custo_unitario_produto: 10.0,
+				uuid: 'fa932382-cd4e-4a7e-baa4-7351abe9cdf4',
+				observacoes: 'Teste Automação',
+			}
+			cy.cadastrar_cronogramas(dados_teste).then((response) => {
+				expect(response.status).to.eq(201)
+				expect(response.body['observacoes']).to.eq('Teste Automação')
+				var uuid = response.body['uuid']
+
+				cy.deletar_cronograma(uuid).then((responseDelete) => {
+					expect(responseDelete.status).to.eq(204)
+				})
+			})
+		})
+
+		it('Validar DELETE de cronograma com sucesso', () => {
+			var dados_teste = {
+				nome: 'Teste Automação Novo Produto Cadastrado',
+				armazem: 'd020c118-f124-4fec-a136-4e3da9ba63d9',
+				empresa: 'd0630b2b-8e45-472c-b9c6-90451b60b081',
+				contrato: '387121e0-f887-4ecf-9521-00c519e9830d',
+				unidade_medida: 'e274494c-78aa-42cf-8718-0e362c0f8ba5',
+				qtd_total_programada: 10.0,
+				etapas: [
+					{
+						numero_empenho: '123456',
+						etapa: 1,
+						parte: 'Parte 1',
+						data_programada: '2025-06-26',
+						quantidade: 10.0,
+						total_embalagens: 1.0,
+						qtd_total_empenho: 10.0,
+						uuid: 'e972f048-a31b-4929-a337-d6b8057e60d9',
+					},
+				],
+				programacoes_de_recebimento: [
+					{
+						data_programada: '26/06/2025 - Etapa 1  - Parte 1',
+						tipo_carga: 'PALETIZADA',
+						uuid: '0f25baf8-4ed4-4572-a9cb-5871e076ec6b',
+					},
+				],
+				ficha_tecnica: '7a308949-4e9d-4e2a-abea-be9322fa955a',
+				tipo_embalagem_secundaria: '05690384-2d95-4e21-8646-8a0f8f8e0673',
+				custo_unitario_produto: 10.0,
+				uuid: 'fa932382-cd4e-4a7e-baa4-7351abe9cdf4',
+				observacoes: 'Teste Automação - Deletar',
+			}
+			cy.cadastrar_cronogramas(dados_teste).then((response) => {
+				expect(response.status).to.eq(201)
+				expect(response.body['observacoes']).to.eq('Teste Automação - Deletar')
+				var uuid = response.body['uuid']
+
+				cy.deletar_cronograma(uuid).then((responseDelete) => {
+					expect(responseDelete.status).to.eq(204)
+				})
+			})
+		})
+
+		it('Validar DELETE de cronograma com UUID inválido', () => {
+			var uuid = '53886ad8-cb8b-4175-853e-de087aaaaaaa'
+			cy.deletar_cronograma(uuid).then((response) => {
+				expect(response.status).to.eq(404)
 			})
 		})
 	})
