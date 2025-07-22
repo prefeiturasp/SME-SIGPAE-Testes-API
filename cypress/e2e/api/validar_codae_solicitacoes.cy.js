@@ -398,7 +398,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 				})
 			})
 
-			it.only('Validar GET com sucesso de dietas canceladas', () => {
+			it('Validar GET com sucesso de dietas canceladas', () => {
 				cy.consultar_cancelados_dieta().then((response) => {
 					expect(response.status).to.eq(200)
 					expect(response.body).to.have.property('count')
