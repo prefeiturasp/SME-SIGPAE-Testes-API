@@ -487,7 +487,8 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 						return (
 							value === 'CANCELADO_ALUNO_NAO_PERTENCE_REDE' ||
 							value === 'CANCELADO_ALUNO_MUDOU_ESCOLA' ||
-							value === 'ESCOLA_CANCELOU'
+							value === 'ESCOLA_CANCELOU' ||
+							value === 'TERMINADA_AUTOMATICAMENTE_SISTEMA'
 						)
 					})
 					expect(response.body.results[0]).to.have.property('conferido')
