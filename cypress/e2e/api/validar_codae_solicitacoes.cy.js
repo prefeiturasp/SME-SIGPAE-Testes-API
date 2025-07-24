@@ -1025,9 +1025,105 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 			)
 		})
 
-		it.only('Validar GET com sucesso de Pendentes Autorização com Filtro e Tipo Visão DRE', () => {
+		it('Validar GET com sucesso de Pendentes Autorização com Filtro 7 Dias e Tipo Visão DRE', () => {
 			var filtro = 'daqui_a_7_dias'
 			var visao = 'dre'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização com Filtro 7 Dias e Tipo Visão LOTE', () => {
+			var filtro = 'daqui_a_7_dias'
+			var visao = 'lote'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização com Filtro 7 Dias e Tipo Visão TIPO SOLICITAÇÃO', () => {
+			var filtro = 'daqui_a_7_dias'
+			var visao = 'tipo_solicitacao'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização sem Filtro e Tipo Visão DRE', () => {
+			var filtro = 'sem_filtro'
+			var visao = 'dre'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização sem Filtro e Tipo Visão LOTE', () => {
+			var filtro = 'sem_filtro'
+			var visao = 'lote'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização sem Filtro e Tipo Visão TIPO SOLICITAÇÃO', () => {
+			var filtro = 'sem_filtro'
+			var visao = 'tipo_solicitacao'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização com Filtro 30 Dias e Tipo Visão DRE', () => {
+			var filtro = 'daqui_a_30_dias'
+			var visao = 'dre'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização com Filtro 30 Dias e Tipo Visão LOTE', () => {
+			var filtro = 'daqui_a_30_dias'
+			var visao = 'lote'
+			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
+				filtro,
+				visao,
+			).then((response) => {
+				expect(response.status).to.eq(200)
+				expect(response.body).to.have.property('results')
+			})
+		})
+
+		it('Validar GET com sucesso de Pendentes Autorização com Filtro 30 Dias e Tipo Visão TIPO SOLICITAÇÃO', () => {
+			var filtro = 'daqui_a_30_dias'
+			var visao = 'tipo_solicitacao'
 			cy.consultar_pendentes_autorizacao_filtro_aplicado_tipo_visao(
 				filtro,
 				visao,
