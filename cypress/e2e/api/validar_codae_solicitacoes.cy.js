@@ -9,7 +9,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 	})
 
 	context('Casos de teste para a rota api/codae-solicitacoes/', () => {
-		it('Validar GET com sucesso de dietas pendentes de autorização', () => {
+		it('Validar GET com sucesso de Dietas Pendentes de Autorização', () => {
 			cy.consultar_pendentes_autorizacao_dieta().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
@@ -102,7 +102,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 			})
 		})
 
-		it('Validar GET com sucesso de dietas autorizadas', () => {
+		it('Validar GET com sucesso de Dietas Autorizadas', () => {
 			cy.consultar_autorizados_dieta().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
@@ -195,7 +195,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 			})
 		})
 
-		it('Validar GET com sucesso de dietas inativas', () => {
+		it('Validar GET com sucesso de Dietas Inativas', () => {
 			cy.consultar_inativas_dieta().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
@@ -287,7 +287,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 			})
 		})
 
-		it('Validar GET com sucesso de dietas negadas', () => {
+		it('Validar GET com sucesso de Dietas Negadas', () => {
 			cy.consultar_negados_dieta().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
@@ -380,7 +380,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 			})
 		})
 
-		it('Validar GET com sucesso de dietas canceladas', () => {
+		it('Validar GET com sucesso de Dietas Canceladas', () => {
 			cy.consultar_cancelados_dieta().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
@@ -478,7 +478,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 			})
 		})
 
-		it('Validar GET com sucesso de dietas autorizadas temporariamente', () => {
+		it('Validar GET com sucesso de Dietas Autorizadas Temporariamente', () => {
 			cy.consultar_autorizadas_temporariamente_dieta().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
@@ -675,7 +675,7 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 			})
 		})
 
-		it('Validar GET com sucesso de dietas inativas temporariamente', () => {
+		it('Validar GET com sucesso de Dietas Inativas Temporariamente', () => {
 			cy.consultar_inativas_temporariamente_dieta().then((response) => {
 				expect(response.status).to.eq(200)
 				expect(response.body).to.have.property('count')
