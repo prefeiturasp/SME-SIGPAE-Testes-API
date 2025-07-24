@@ -48,7 +48,7 @@ pipeline {
                 sh '''
                     NO_COLOR=1 npx cypress run \
                         --headless \
-                        --spec cypress/e2e/api/* \
+                        --spec cypress/e2e/* \
                         --reporter mocha-allure-reporter \
                         --browser chrome
                 '''
