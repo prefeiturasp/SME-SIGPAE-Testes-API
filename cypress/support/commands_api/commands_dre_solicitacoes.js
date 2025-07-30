@@ -157,34 +157,6 @@ Cypress.Commands.add('dre_consultar_pendentes_autorizacao', () => {
 	})
 })
 
-Cypress.Commands.add('dre_consultar_pesquisa', (uuid) => {
-	cy.request({
-		method: 'GET',
-		url:
-			Cypress.config('baseUrl') +
-			`api/diretoria-regional-solicitacoes/pesquisa/${uuid}/`,
-		timeout: 60000,
-		headers: {
-			Authorization: 'JWT ' + globalThis.token,
-		},
-		failOnStatusCode: false,
-	})
-})
-
-Cypress.Commands.add('dre_consultar_resumo_mes', (uuid) => {
-	cy.request({
-		method: 'GET',
-		url:
-			Cypress.config('baseUrl') +
-			'api/diretoria-regional-solicitacoes/resumo-mes/',
-		timeout: 60000,
-		headers: {
-			Authorization: 'JWT ' + globalThis.token,
-		},
-		failOnStatusCode: false,
-	})
-})
-
 Cypress.Commands.add('dre_consultar_solicitacoes_detalhadas', () => {
 	cy.request({
 		method: 'GET',
@@ -215,3 +187,17 @@ Cypress.Commands.add(
 		})
 	},
 )
+
+Cypress.Commands.add('dre_consultar_aguardando_codae', (uuid) => {
+	cy.request({
+		method: 'GET',
+		url:
+			Cypress.config('baseUrl') +
+			'api/diretoria-regional-solicitacoes/aguardando-codae/',
+		timeout: 60000,
+		headers: {
+			Authorization: 'JWT ' + globalThis.token,
+		},
+		failOnStatusCode: false,
+	})
+})

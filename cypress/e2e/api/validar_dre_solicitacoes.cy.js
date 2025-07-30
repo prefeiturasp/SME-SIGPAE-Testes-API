@@ -11,7 +11,102 @@ describe('Validar rotas de Diretoria Regional Solicitações da aplicação SIGP
 	context(
 		'Casos de teste para a rota api/diretoria-regional-solicitacoes/',
 		() => {
-			// FALTA ENDPOINT AGUARDANDO CODAE
+			it('Validar GET com sucesso de Aguardando CODAE - DRE', () => {
+				cy.dre_consultar_aguardando_codae().then((response) => {
+					expect(response.status).to.eq(200)
+					expect(response.body).to.have.property('count')
+					expect(response.body).to.have.property('next')
+					expect(response.body).to.have.property('previous')
+					expect(response.body).to.have.property('results')
+					expect(response.body.results).to.be.an('array')
+					expect(response.body.results[0]).property('numero_alunos')
+					expect(response.body.results[0]).property('data_log')
+					expect(response.body.results[0]).to.have.property('id_externo')
+					expect(response.body.results[0]).to.have.property(
+						'escolas_quantidades',
+					)
+					expect(
+						response.body.results[0].tipo_unidade_escolar,
+					).to.have.property('iniciais')
+					expect(
+						response.body.results[0].tipo_unidade_escolar,
+					).to.have.property('uuid')
+					expect(response.body.results[0]).to.have.property('uuid').that.exist
+						.and.is.not.empty
+					expect(response.body.results[0])
+						.to.have.property('id')
+						.that.exist.and.is.greaterThan(0)
+					expect(response.body.results[0]).to.have.property('descricao').that
+						.exist.and.is.not.empty
+					expect(response.body.results[0]).to.have.property(
+						'descricao_dieta_especial',
+					).that.exist.and.is.not.empty
+					expect(response.body.results[0]).to.have.property('prioridade').that
+						.exist.and.is.not.empty
+					expect(response.body.results[0]).to.have.property(
+						'tipo_solicitacao_dieta',
+					)
+					expect(response.body.results[0]).to.have.property('terceirizada_nome')
+						.that.exist.and.is.not.empty
+					expect(response.body.results[0]).to.have.property('codigo_eol_aluno')
+					expect(response.body.results[0]).to.have.property('data_evento')
+					expect(response.body.results[0]).to.have.property('data_evento_2')
+					expect(response.body.results[0]).to.have.property('data_evento_fim')
+					expect(response.body.results[0]).to.have.property('lote_nome')
+					expect(response.body.results[0]).to.have.property('dre_nome')
+					expect(response.body.results[0]).to.have.property('dre_iniciais')
+					expect(response.body.results[0]).to.have.property('escola_nome')
+					expect(response.body.results[0]).to.have.property(
+						'tipo_solicitacao_dieta',
+					)
+					expect(response.body.results[0]).to.have.property('terceirizada_nome')
+					expect(response.body.results[0]).to.have.property('nome_aluno')
+					expect(response.body.results[0]).to.have.property('serie')
+					expect(response.body.results[0]).to.have.property('codigo_eol_aluno')
+					expect(response.body.results[0]).to.have.property(
+						'aluno_nao_matriculado',
+					)
+					expect(response.body.results[0]).to.have.property('dieta_alterada_id')
+					expect(response.body.results[0]).to.have.property('classificacao_id')
+					expect(response.body.results[0]).to.have.property('ativo')
+					expect(response.body.results[0]).to.have.property('em_vigencia')
+					expect(response.body.results[0]).to.have.property('lote_uuid')
+					expect(response.body.results[0]).to.have.property('escola_uuid')
+					expect(response.body.results[0]).to.have.property(
+						'escola_tipo_unidade_uuid',
+					)
+					expect(response.body.results[0]).to.have.property(
+						'escola_tipo_gestao_uuid',
+					)
+					expect(response.body.results[0]).to.have.property(
+						'escola_destino_uuid',
+					)
+					expect(response.body.results[0]).to.have.property('escola_destino_id')
+					expect(response.body.results[0]).to.have.property(
+						'escola_destino_tipo_unidade_uuid',
+					)
+					expect(response.body.results[0]).to.have.property(
+						'lote_escola_destino_uuid',
+					)
+					expect(response.body.results[0]).to.have.property(
+						'dre_escola_destino_uuid',
+					)
+					expect(response.body.results[0]).to.have.property('terceirizada_uuid')
+					expect(response.body.results[0]).to.have.property('tipo_doc')
+					expect(response.body.results[0]).to.have.property('desc_doc')
+					expect(response.body.results[0]).to.have.property('status_evento')
+					expect(response.body.results[0]).to.have.property('motivo')
+					expect(response.body.results[0])
+						.to.have.property('status_atual')
+						.to.eq('DRE_VALIDADO')
+					expect(response.body.results[0]).to.have.property('conferido')
+					expect(response.body.results[0]).to.have.property(
+						'terceirizada_conferiu_gestao',
+					)
+					expect(response.body.results[0]).to.have.property('dre_nome')
+					expect(response.body.results[0]).to.have.property('dre_nome')
+				})
+			})
 
 			it('Validar GET com sucesso de Autorizadas Dietas Temporariamente - DRE', () => {
 				var uuid = '3972e0e9-2d8e-472a-9dfa-30cd219a6d9a'
@@ -923,123 +1018,6 @@ describe('Validar rotas de Diretoria Regional Solicitações da aplicação SIGP
 				})
 			})
 
-			// FALTA PASSAR OS PARAMETROS
-			// it.only('Validar GET com sucesso de Pesquisa - DRE', () => {
-			// 	var uuid = '3972e0e9-2d8e-472a-9dfa-30cd219a6d9a'
-			// 	cy.dre_consultar_pesquisa(uuid).then((response) => {
-			// 		expect(response.status).to.eq(200)
-			// 		expect(response.body).to.have.property('count')
-			// 		expect(response.body).to.have.property('next')
-			// 		expect(response.body).to.have.property('previous')
-			// 		expect(response.body).to.have.property('results')
-			// 		expect(response.body.results).to.be.an('array')
-			// 		expect(response.body.results[0]).property('numero_alunos')
-			// 		expect(response.body.results[0]).property('data_log')
-			// 		expect(response.body.results[0]).to.have.property('id_externo')
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'escolas_quantidades',
-			// 		)
-			// 		expect(
-			// 			response.body.results[0].tipo_unidade_escolar,
-			// 		).to.have.property('iniciais')
-			// 		expect(
-			// 			response.body.results[0].tipo_unidade_escolar,
-			// 		).to.have.property('uuid')
-			// 		expect(response.body.results[0]).to.have.property('uuid').that.exist
-			// 			.and.is.not.empty
-			// 		expect(response.body.results[0])
-			// 			.to.have.property('id')
-			// 			.that.exist.and.is.greaterThan(0)
-			// 		expect(response.body.results[0]).to.have.property('descricao').that
-			// 			.exist.and.is.not.empty
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'descricao_dieta_especial',
-			// 		).that.exist.and.is.not.empty
-			// 		expect(response.body.results[0]).to.have.property('prioridade').that
-			// 			.exist.and.is.not.empty
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'tipo_solicitacao_dieta',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property('terceirizada_nome')
-			// 			.that.exist.and.is.not.empty
-			// 		expect(response.body.results[0]).to.have.property('codigo_eol_aluno')
-			// 		expect(response.body.results[0]).to.have.property('data_evento')
-			// 		expect(response.body.results[0]).to.have.property('data_evento_2')
-			// 		expect(response.body.results[0]).to.have.property('data_evento_fim')
-			// 		expect(response.body.results[0]).to.have.property('lote_nome')
-			// 		expect(response.body.results[0]).to.have.property('dre_nome')
-			// 		expect(response.body.results[0]).to.have.property('dre_iniciais')
-			// 		expect(response.body.results[0]).to.have.property('escola_nome')
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'tipo_solicitacao_dieta',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property('terceirizada_nome')
-			// 		expect(response.body.results[0]).to.have.property('nome_aluno')
-			// 		expect(response.body.results[0]).to.have.property('serie')
-			// 		expect(response.body.results[0]).to.have.property('codigo_eol_aluno')
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'aluno_nao_matriculado',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property('dieta_alterada_id')
-			// 		expect(response.body.results[0]).to.have.property('classificacao_id')
-			// 		expect(response.body.results[0]).to.have.property('ativo')
-			// 		expect(response.body.results[0]).to.have.property('em_vigencia')
-			// 		expect(response.body.results[0]).to.have.property('lote_uuid')
-			// 		expect(response.body.results[0]).to.have.property('escola_uuid')
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'escola_tipo_unidade_uuid',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'escola_tipo_gestao_uuid',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'escola_destino_uuid',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property('escola_destino_id')
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'escola_destino_tipo_unidade_uuid',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'lote_escola_destino_uuid',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'dre_escola_destino_uuid',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property('terceirizada_uuid')
-			// 		expect(response.body.results[0]).to.have.property('tipo_doc')
-			// 		expect(response.body.results[0]).to.have.property('desc_doc')
-			// 		expect(response.body.results[0]).to.have.property('status_evento')
-			// 		expect(response.body.results[0]).to.have.property('motivo')
-			// 		expect(response.body.results[0])
-			// 			.to.have.property('status_atual')
-			// 			.to.eq('CODAE_QUESTIONADO')
-			// 		expect(response.body.results[0]).to.have.property('conferido')
-			// 		expect(response.body.results[0]).to.have.property(
-			// 			'terceirizada_conferiu_gestao',
-			// 		)
-			// 		expect(response.body.results[0]).to.have.property('dre_nome')
-			// 		expect(response.body.results[0]).to.have.property('dre_nome')
-			// 	})
-			// })
-
-			it('Validar GET com sucesso de Resumo Mês - DRE', () => {
-				cy.dre_consultar_resumo_mes().then((response) => {
-					expect(response.status).to.eq(200)
-					expect(response.body).to.have.property('total_autorizados')
-					expect(response.body).to.have.property('total_negados')
-					expect(response.body).to.have.property('total_cancelados')
-					expect(response.body).to.have.property('total_pendentes')
-					expect(response.body).to.have.property('total_mes_atual')
-					expect(response.body).to.have.property(
-						'total_autorizados_mes_passado',
-					)
-					expect(response.body).to.have.property('total_negados_mes_passado')
-					expect(response.body).to.have.property('total_cancelados_mes_passado')
-					expect(response.body).to.have.property('total_pendentes_mes_passado')
-					expect(response.body).to.have.property('total_mes_passado')
-				})
-			})
-
 			it('Validar GET com sucesso de Solicitações Detalhadas - DRE', () => {
 				cy.dre_consultar_solicitacoes_detalhadas().then((response) => {
 					expect(response.status).to.eq(200)
@@ -1048,16 +1026,6 @@ describe('Validar rotas de Diretoria Regional Solicitações da aplicação SIGP
 					expect(response.body).to.have.property('status')
 				})
 			})
-
-			// REVER este cenário
-			// it('Validar GET de Pendentes Autorização com Filtro Inválido', () => {
-			// 	var filtro = 'outro_filtro'
-			// 	cy.dre_consultar_pendentes_autorizacao_filtro_aplicado(filtro).then(
-			// 		(response) => {
-			// 			expect(response.status).to.eq(404)
-			// 		},
-			// 	)
-			// })
 
 			it('Validar GET com sucesso de Pendentes Validação com Filtro 7 Dias e Tipo Visão DRE - DRE', () => {
 				var filtro = 'daqui_a_7_dias'
