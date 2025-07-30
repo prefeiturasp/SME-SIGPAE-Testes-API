@@ -24,6 +24,7 @@ module.exports = defineConfig({
 		usuario_diretor_ue: '44331733637',
 		usuario_codae: '01341145409',
 		usuario_gpcodae: '63133486802',
+		usuario_dre: '26755818011',
 		senha: 'adminadmin',
 		video: false,
 		timeout: 60000,
