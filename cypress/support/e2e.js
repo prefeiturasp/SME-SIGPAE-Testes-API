@@ -14,6 +14,7 @@ import './commands_api/commands_conferencia_da_guia'
 import './commands_api/commands_dashboard_produtos'
 import './commands_api/commands_codae_solicitacoes'
 import './commands_api/commands_cronogramas'
+import './commands_api/commands_dre_solicitacoes'
 
 import './commands_ui/commands_login'
 import './commands_ui/commands_globais'
