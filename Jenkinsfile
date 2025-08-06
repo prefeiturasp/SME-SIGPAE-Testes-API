@@ -8,7 +8,7 @@ pipeline {
     }
 
     agent {
-            label 'cypress-node'
+        label 'cypress-node'
     }
 
     environment {
@@ -143,4 +143,4 @@ pipeline {
 //         )
 //         return response
 //     }
-}
+// }
