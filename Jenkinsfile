@@ -61,7 +61,7 @@ pipeline {
                                             --record \
                                             --key somekey \
                                             --reporter mocha-allure-reporter \
-                                            --ci-build-id SME-NOVOSGP_JENKINS-BUILD-${BUILD_NUMBER} && \
+                                            --ci-build-id SME-SIGPAE_JENKINS-BUILD-${BUILD_NUMBER} && \
                                         chown 1001:1001 * -R
                                         chmod 777 * -R"
                         '''
