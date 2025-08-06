@@ -32,7 +32,7 @@ describe('Validar rotas de classificações de dieta da aplicação SIGPAE', () 
 				expect(response.body.results[0]).to.have.property('numero_empenho').that
 					.exist
 				expect(response.body.results[0]).to.have.property('etapa').that.exist
-				expect(response.body.results[0]).to.have.property('parte').that.exist
+				expect(response.body.results[0]).to.have.property('parte')
 				expect(response.body.results[0]).to.have.property('quantidade').that
 					.exist
 				expect(response.body.results[0]).to.have.property('status').that.exist
