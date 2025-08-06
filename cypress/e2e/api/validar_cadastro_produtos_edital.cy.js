@@ -266,11 +266,11 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 
 		it('Validar PUT de produto edital já cadastrado', () => {
 			var dados_teste = {
-				nome: 'PRODUTO ATUALIZADO',
+				nome: 'PRODUTO DE TESTE AUTOMAÇÃO - VIA PATCH',
 				ativo: 'Ativo',
 				tipo_produto: 'TERCEIRIZADA',
 			}
-			var uuid = '1c3a8300-d963-49fb-a322-dccb6e06bcdd/'
+			var uuid = 'e6d735aa-8a99-491b-9a14-0e2288ff1d0f/'
 			cy.atualizar_produto_edital(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body[0]).to.eq('Item já cadastrado.')
@@ -358,7 +358,6 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 				cy.consultar_produtos_edital(parametros).then((response) => {
 					expect(response.status).to.eq(200)
 					var uuid = response.body.results[0].uuid
-					// .substituicoes[0].alteracao_cardapio
 					cy.excluir_produto_edital(uuid).then((response) => {
 						expect(response.status).to.eq(204)
 					})
@@ -390,11 +389,11 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 
 		it('Validar PATCH de produto edital já cadastrado', () => {
 			var dados_teste = {
-				nome: 'PRODUTO ATUALIZADO VIA PATCH',
+				nome: 'PRODUTO ATUALIZADO VIA PUT - AUTOMAÇÃO',
 				ativo: 'Ativo',
 				tipo_produto: 'TERCEIRIZADA',
 			}
-			var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
+			var uuid = 'cbd9638c-b972-4184-814d-cc48e95ab7a4/'
 			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body[0]).to.eq('Item já cadastrado.')
