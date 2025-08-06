@@ -1,5 +1,6 @@
 const { defineConfig } = require('cypress')
 const allureWriter = require('@shelex/cypress-allure-plugin/writer')
+const { cloudPlugin } = require('cypress-cloud/plugin');
 
 module.exports = defineConfig({
 	e2e: {
@@ -13,7 +14,7 @@ module.exports = defineConfig({
 				}
 				return launchOptions
 			})
-			return config
+			return cloudPlugin(on, config);
 		},
 		baseUrl: 'https://hom-sigpae.sme.prefeitura.sp.gov.br/',
 		usuario_coordenador_logistica: '07206148808',
