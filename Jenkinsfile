@@ -13,6 +13,9 @@ pipeline {
 
     environment {
         JOB_DISPLAY_NAME = "SIGPAE-Testes-HML"
+        TEST_DIR = 'cypress'
+        ALLURE_PATH = 'allure-results'
+        WORKSPACE_DIR = "${env.WORKSPACE}"
     }
 
     stages {
