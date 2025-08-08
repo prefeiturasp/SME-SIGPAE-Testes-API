@@ -17,6 +17,7 @@ import './commands_api/commands_cronogramas'
 import './commands_api/commands_dre_solicitacoes'
 import './commands_api/commands_dre'
 import './commands_api/commands_dre_simplissima'
+import './commands_api/commands_editais'
 
 import './commands_ui/commands_login'
 import './commands_ui/commands_globais'
