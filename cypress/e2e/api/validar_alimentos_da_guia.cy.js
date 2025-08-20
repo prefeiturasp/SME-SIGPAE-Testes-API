@@ -17,11 +17,13 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				expect(response.body).to.have.property('count').that.exist
 				expect(response.body).to.have.property('next').that.exist
 				expect(response.body).to.have.property('previous')
-				expect(response.body).to.have.property('results').that.is.an('array').and.not.to.be.empty
+				expect(response.body).to.have.property('results').that.is.an('array')
+					.and.not.to.be.empty
 				const primeiro_resultado = response.body.results[0]
 				expect(primeiro_resultado).to.have.property('alterado_em').that.exist
 				expect(primeiro_resultado).to.have.property('codigo_papa').that.exist
-				expect(primeiro_resultado).to.have.property('codigo_suprimento').that.exist
+				expect(primeiro_resultado).to.have.property('codigo_suprimento').that
+					.exist
 				expect(primeiro_resultado).to.have.property('criado_em').that.exist
 				expect(primeiro_resultado).to.have.property('guia').that.exist
 				expect(primeiro_resultado).to.have.property('nome_alimento').that.exist
@@ -35,11 +37,13 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				expect(response.body).to.have.property('count').that.exist
 				expect(response.body).to.have.property('next').that.exist
 				expect(response.body).to.have.property('previous')
-				expect(response.body).to.have.property('results').that.is.an('array').and.not.to.be.empty
+				expect(response.body).to.have.property('results').that.is.an('array')
+					.and.not.to.be.empty
 				const primeiro_resultado = response.body.results[0]
 				expect(primeiro_resultado).to.have.property('alterado_em').that.exist
 				expect(primeiro_resultado).to.have.property('codigo_papa').that.exist
-				expect(primeiro_resultado).to.have.property('codigo_suprimento').that.exist
+				expect(primeiro_resultado).to.have.property('codigo_suprimento').that
+					.exist
 				expect(primeiro_resultado).to.have.property('criado_em').that.exist
 				expect(primeiro_resultado).to.have.property('guia').that.exist
 				expect(primeiro_resultado).to.have.property('nome_alimento').that.exist
@@ -70,7 +74,9 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 			cy.validar_alimentos_da_guia(id).then((response) => {
 				expect(response.status).to.eq(403)
 				expect(response.body).to.have.property('detail').that.is.a('string')
-				expect(response.body.detail).to.eq('Você não tem permissão para executar essa ação.')
+				expect(response.body.detail).to.eq(
+					'Você não tem permissão para executar essa ação.',
+				)
 			})
 		})
 	})
@@ -122,7 +128,6 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				expect(response.redirects).to.be.an('array').that.is.not.empty
 			})
 		})
-
 	})
 
 	context('Casos de teste para a rota api/alimentos-da-guia/ POST', () => {
@@ -131,7 +136,7 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				codigo_suprimento: 'teste automatizado',
 				codigo_papa: 't a',
 				nome_alimento: 'Teste Batatinha',
-				guia: 8159
+				guia: 8159,
 			}
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				expect(response.status).to.eq(201)
@@ -147,14 +152,17 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 		})
 		it('Validar Post cadastro com codigo do suprimento com mais de 100 caracteres', () => {
 			var alimento = {
-				codigo_suprimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+				codigo_suprimento:
+					'12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
 				codigo_papa: 't a',
 				nome_alimento: 'Teste Batatinha',
-				guia: 8159
+				guia: 8159,
 			}
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.codigo_suprimento[0]).contains('Certifique-se de que este campo não tenha mais de 100 caracteres.')
+				expect(response.body.codigo_suprimento[0]).contains(
+					'Certifique-se de que este campo não tenha mais de 100 caracteres.',
+				)
 			})
 		})
 		it('Validar Post cadastro com codigo do papa com mais de 10 caracteres', () => {
@@ -162,23 +170,28 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				codigo_suprimento: '1010101010',
 				codigo_papa: '12312312312',
 				nome_alimento: 'Teste Batatinha',
-				guia: 8159
+				guia: 8159,
 			}
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.codigo_papa[0]).contains('Certifique-se de que este campo não tenha mais de 10 caracteres.')
+				expect(response.body.codigo_papa[0]).contains(
+					'Certifique-se de que este campo não tenha mais de 10 caracteres.',
+				)
 			})
 		})
 		it('Validar Post cadastro com nome alimento com mais de 100 caracteres', () => {
 			var alimento = {
 				codigo_suprimento: 'teste automatizado',
 				codigo_papa: 't a',
-				nome_alimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
-				guia: 8159
+				nome_alimento:
+					'12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+				guia: 8159,
 			}
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.nome_alimento[0]).to.eq('Certifique-se de que este campo não tenha mais de 100 caracteres.')
+				expect(response.body.nome_alimento[0]).to.eq(
+					'Certifique-se de que este campo não tenha mais de 100 caracteres.',
+				)
 			})
 		})
 		it('Validar Post numero guia do tipo string', () => {
@@ -186,11 +199,13 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				codigo_suprimento: 'teste automatizado',
 				codigo_papa: 't a',
 				nome_alimento: 'Teste Batatinha',
-				guia: 'a'
+				guia: 'a',
 			}
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.guia[0]).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
+				expect(response.body.guia[0]).to.eq(
+					'Tipo incorreto. Esperava valor pk, recebeu str.',
+				)
 			})
 		})
 		it('Validar Post numero guia invalido', () => {
@@ -198,11 +213,13 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				codigo_suprimento: 'teste automatizado',
 				codigo_papa: 't a',
 				nome_alimento: 'Teste Batatinha',
-				guia: '1'
+				guia: '1',
 			}
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.guia[0]).to.eq('Pk inválido "1" - objeto não existe.')
+				expect(response.body.guia[0]).to.eq(
+					'Pk inválido "1" - objeto não existe.',
+				)
 			})
 		})
 	})
@@ -213,7 +230,7 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				codigo_suprimento: 'teste automatizado',
 				codigo_papa: 't a',
 				nome_alimento: 'Teste Batatinha',
-				guia: 8159
+				guia: 8159,
 			}
 			cy.cadastrar_alimentos_da_guia(alimento).then((response_id) => {
 				id = response_id.body.uuid
@@ -241,7 +258,7 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 			codigo_suprimento: 'teste automatizado',
 			codigo_papa: 't a',
 			nome_alimento: 'Teste Batatinha',
-			guia: 8159
+			guia: 8159,
 		}
 		it('Validar Put alterar alimento da guia com sucesso', () => {
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
@@ -250,20 +267,28 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: 'Alteracao automatizado',
 					codigo_papa: 'a a',
 					nome_alimento: 'Teste Batatinha Alteracao',
-					guia: 8160
+					guia: 8160,
 				}
-				cy.alterar_alimentos_da_guia(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(200)
-					expect(response_alteracao.body).to.have.property('alterado_em').that.exist
-					expect(response_alteracao.body.codigo_papa).to.eq('a a')
-					expect(response_alteracao.body.codigo_suprimento).to.eq('Alteracao automatizado')
-					expect(response_alteracao.body).to.have.property('criado_em').that.exist
-					expect(response_alteracao.body.nome_alimento).to.eq('Teste Batatinha Alteracao')
-					expect(response_alteracao.body.guia).to.eq(8160)
-					expect(response_alteracao.body).to.have.property('uuid').that.exist
-					id = response_alteracao.body.uuid
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(200)
+						expect(response_alteracao.body).to.have.property('alterado_em').that
+							.exist
+						expect(response_alteracao.body.codigo_papa).to.eq('a a')
+						expect(response_alteracao.body.codigo_suprimento).to.eq(
+							'Alteracao automatizado',
+						)
+						expect(response_alteracao.body).to.have.property('criado_em').that
+							.exist
+						expect(response_alteracao.body.nome_alimento).to.eq(
+							'Teste Batatinha Alteracao',
+						)
+						expect(response_alteracao.body.guia).to.eq(8160)
+						expect(response_alteracao.body).to.have.property('uuid').that.exist
+						id = response_alteracao.body.uuid
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -271,16 +296,21 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				id = response.body.uuid
 				var alimento_alterado = {
-					codigo_suprimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+					codigo_suprimento:
+						'12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
 					codigo_papa: 't a',
 					nome_alimento: 'Teste Batatinha',
-					guia: 8159
+					guia: 8159,
 				}
-				cy.alterar_alimentos_da_guia(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.codigo_suprimento[0]).contains('Certifique-se de que este campo não tenha mais de 100 caracteres.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.codigo_suprimento[0]).contains(
+							'Certifique-se de que este campo não tenha mais de 100 caracteres.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -291,13 +321,17 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: '1010101010',
 					codigo_papa: '12312312312',
 					nome_alimento: 'Teste Batatinha',
-					guia: 8159
+					guia: 8159,
 				}
-				cy.alterar_alimentos_da_guia(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.codigo_papa[0]).contains('Certifique-se de que este campo não tenha mais de 10 caracteres.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.codigo_papa[0]).contains(
+							'Certifique-se de que este campo não tenha mais de 10 caracteres.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -307,14 +341,19 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				var alimento_alterado = {
 					codigo_suprimento: 'teste automatizado',
 					codigo_papa: 't a',
-					nome_alimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
-					guia: 8159
+					nome_alimento:
+						'12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+					guia: 8159,
 				}
-				cy.alterar_alimentos_da_guia(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.nome_alimento[0]).to.eq('Certifique-se de que este campo não tenha mais de 100 caracteres.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.nome_alimento[0]).to.eq(
+							'Certifique-se de que este campo não tenha mais de 100 caracteres.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -325,13 +364,17 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: 'teste automatizado',
 					codigo_papa: 't a',
 					nome_alimento: 'Teste Batatinha',
-					guia: 'a'
+					guia: 'a',
 				}
-				cy.alterar_alimentos_da_guia(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.guia[0]).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.guia[0]).to.eq(
+							'Tipo incorreto. Esperava valor pk, recebeu str.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 		it('Validar Put numero guia invalido', () => {
@@ -341,13 +384,17 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: 'teste automatizado',
 					codigo_papa: 't a',
 					nome_alimento: 'Teste Batatinha',
-					guia: '1'
+					guia: '1',
 				}
-				cy.alterar_alimentos_da_guia(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.guia[0]).to.eq('Pk inválido "1" - objeto não existe.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.guia[0]).to.eq(
+							'Pk inválido "1" - objeto não existe.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 	})
@@ -357,7 +404,7 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 			codigo_suprimento: 'teste automatizado',
 			codigo_papa: 't a',
 			nome_alimento: 'Teste Batatinha',
-			guia: 8159
+			guia: 8159,
 		}
 		it('Validar Patch alterar todos os itens de alimento da guia com sucesso', () => {
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
@@ -366,20 +413,28 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: 'Alteracao automatizado',
 					codigo_papa: 'a a',
 					nome_alimento: 'Teste Batatinha Alteracao',
-					guia: 8160
+					guia: 8160,
 				}
-				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(200)
-					expect(response_alteracao.body).to.have.property('alterado_em').that.exist
-					expect(response_alteracao.body.codigo_papa).to.eq('a a')
-					expect(response_alteracao.body.codigo_suprimento).to.eq('Alteracao automatizado')
-					expect(response_alteracao.body).to.have.property('criado_em').that.exist
-					expect(response_alteracao.body.nome_alimento).to.eq('Teste Batatinha Alteracao')
-					expect(response_alteracao.body.guia).to.eq(8160)
-					expect(response_alteracao.body).to.have.property('uuid').that.exist
-					id = response_alteracao.body.uuid
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(200)
+						expect(response_alteracao.body).to.have.property('alterado_em').that
+							.exist
+						expect(response_alteracao.body.codigo_papa).to.eq('a a')
+						expect(response_alteracao.body.codigo_suprimento).to.eq(
+							'Alteracao automatizado',
+						)
+						expect(response_alteracao.body).to.have.property('criado_em').that
+							.exist
+						expect(response_alteracao.body.nome_alimento).to.eq(
+							'Teste Batatinha Alteracao',
+						)
+						expect(response_alteracao.body.guia).to.eq(8160)
+						expect(response_alteracao.body).to.have.property('uuid').that.exist
+						id = response_alteracao.body.uuid
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -387,16 +442,21 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 			cy.cadastrar_alimentos_da_guia(alimento).then((response) => {
 				id = response.body.uuid
 				var alimento_alterado = {
-					codigo_suprimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+					codigo_suprimento:
+						'12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
 					codigo_papa: 't a',
 					nome_alimento: 'Teste Batatinha',
-					guia: 8159
+					guia: 8159,
 				}
-				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.codigo_suprimento[0]).contains('Certifique-se de que este campo não tenha mais de 100 caracteres.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.codigo_suprimento[0]).contains(
+							'Certifique-se de que este campo não tenha mais de 100 caracteres.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -407,13 +467,17 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: '1010101010',
 					codigo_papa: '12312312312',
 					nome_alimento: 'Teste Batatinha',
-					guia: 8159
+					guia: 8159,
 				}
-				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.codigo_papa[0]).contains('Certifique-se de que este campo não tenha mais de 10 caracteres.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.codigo_papa[0]).contains(
+							'Certifique-se de que este campo não tenha mais de 10 caracteres.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -423,14 +487,19 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 				var alimento_alterado = {
 					codigo_suprimento: 'teste automatizado',
 					codigo_papa: 't a',
-					nome_alimento: '12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
-					guia: 8159
+					nome_alimento:
+						'12345645655654565256556565656252545856545656565656123456456556545652565565656562525458565456565656511',
+					guia: 8159,
 				}
-				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.nome_alimento[0]).to.eq('Certifique-se de que este campo não tenha mais de 100 caracteres.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.nome_alimento[0]).to.eq(
+							'Certifique-se de que este campo não tenha mais de 100 caracteres.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 
@@ -441,13 +510,17 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: 'teste automatizado',
 					codigo_papa: 't a',
 					nome_alimento: 'Teste Batatinha',
-					guia: 'a'
+					guia: 'a',
 				}
-				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.guia[0]).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.guia[0]).to.eq(
+							'Tipo incorreto. Esperava valor pk, recebeu str.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 		it('Validar Put numero guia invalido', () => {
@@ -457,26 +530,34 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 					codigo_suprimento: 'teste automatizado',
 					codigo_papa: 't a',
 					nome_alimento: 'Teste Batatinha',
-					guia: '1'
+					guia: '1',
 				}
-				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then((response_alteracao) => {
-					expect(response_alteracao.status).to.eq(400)
-					expect(response_alteracao.body.guia[0]).to.eq('Pk inválido "1" - objeto não existe.')
-					cy.excluir_alimentos_da_guia(id)
-				})
+				cy.alterar_alimentos_da_guia_patch(id, alimento_alterado).then(
+					(response_alteracao) => {
+						expect(response_alteracao.status).to.eq(400)
+						expect(response_alteracao.body.guia[0]).to.eq(
+							'Pk inválido "1" - objeto não existe.',
+						)
+						cy.excluir_alimentos_da_guia(id)
+					},
+				)
 			})
 		})
 	})
 
-	context('Casos de teste para a rota api/alimentos-da-guia/lista-nomes/ GET', () => {
-		it('Validar GET da lista de nomes de alimentos da guia com sucesso', () => {
-			cy.Validar_lista_de_nomes_alimentos_da_guia().then((response) => {
-				expect(response.status).to.eq(200)
-				expect(response.body).to.have.property('results').that.is.an('array').and.not.to.be.empty
-				const primeiroResultado = response.body.results[0]
-				expect(primeiroResultado).to.have.property('nome_alimento').that.exist
-				expect(primeiroResultado).to.have.property('uuid').that.exist
+	context(
+		'Casos de teste para a rota api/alimentos-da-guia/lista-nomes/ GET',
+		() => {
+			it('Validar GET da lista de nomes de alimentos da guia com sucesso', () => {
+				cy.Validar_lista_de_nomes_alimentos_da_guia().then((response) => {
+					expect(response.status).to.eq(200)
+					expect(response.body).to.have.property('results').that.is.an('array')
+						.and.not.to.be.empty
+					const primeiroResultado = response.body.results[0]
+					expect(primeiroResultado).to.have.property('nome_alimento').that.exist
+					expect(primeiroResultado).to.have.property('uuid').that.exist
+				})
 			})
-		})
-	})
+		},
+	)
 })

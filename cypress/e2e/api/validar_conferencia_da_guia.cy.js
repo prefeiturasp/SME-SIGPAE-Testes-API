@@ -125,7 +125,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 			cy.cadastrar_conferencia_da_guia(dados_teste, uuid).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.placa_veiculo[0]).to.eq(
-					'Este campo não pode ser em branco.',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -143,7 +143,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 			cy.cadastrar_conferencia_da_guia(dados_teste, uuid).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.nome_motorista[0]).to.eq(
-					'Este campo não pode ser em branco.',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -179,7 +179,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 			cy.cadastrar_conferencia_da_guia(dados_teste, uuid).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.hora_recebimento[0]).to.eq(
-					'Formato inválido para Tempo. Use um dos formatos a seguir: hh:mm:ss, hh:mm[:ss[.uuuuuu]].',
+					'Formato inválido para tempo. Use um dos formatos a seguir: hh:mm:ss, hh:mm[:ss[.uuuuuu]].',
 				)
 			})
 		})
@@ -275,7 +275,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 			cy.alterar_conferencia_da_guia(dados_teste, uuid).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.placa_veiculo[0]).to.eq(
-					'Este campo não pode ser em branco.',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -293,7 +293,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 			cy.alterar_conferencia_da_guia(dados_teste, uuid).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.nome_motorista[0]).to.eq(
-					'Este campo não pode ser em branco.',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -329,7 +329,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 			cy.alterar_conferencia_da_guia(dados_teste, uuid).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.hora_recebimento[0]).to.eq(
-					'Formato inválido para Tempo. Use um dos formatos a seguir: hh:mm:ss, hh:mm[:ss[.uuuuuu]].',
+					'Formato inválido para tempo. Use um dos formatos a seguir: hh:mm:ss, hh:mm[:ss[.uuuuuu]].',
 				)
 			})
 		})
@@ -402,7 +402,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 				(response) => {
 					expect(response.status).to.eq(400)
 					expect(response.body.placa_veiculo[0]).to.eq(
-						'Este campo não pode ser em branco.',
+						'Este campo não pode estar em branco.',
 					)
 				},
 			)
@@ -422,7 +422,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 				(response) => {
 					expect(response.status).to.eq(400)
 					expect(response.body.nome_motorista[0]).to.eq(
-						'Este campo não pode ser em branco.',
+						'Este campo não pode estar em branco.',
 					)
 				},
 			)
@@ -462,7 +462,7 @@ describe('Validar rotas de conferência da guia da aplicação SIGPAE', () => {
 				(response) => {
 					expect(response.status).to.eq(400)
 					expect(response.body.hora_recebimento[0]).to.eq(
-						'Formato inválido para Tempo. Use um dos formatos a seguir: hh:mm:ss, hh:mm[:ss[.uuuuuu]].',
+						'Formato inválido para tempo. Use um dos formatos a seguir: hh:mm:ss, hh:mm[:ss[.uuuuuu]].',
 					)
 				},
 			)

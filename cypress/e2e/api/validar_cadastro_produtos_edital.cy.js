@@ -130,8 +130,8 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			}
 			cy.cadastrar_produto_edital(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.tipo_produto).to.contains(
-					'"TERCEIRA" não é um escolha válido.',
+				expect(response.body.tipo_produto[0]).to.contains(
+					'"TERCEIRA" não é um escolha válida.',
 				)
 			})
 		})
@@ -156,7 +156,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			cy.cadastrar_produto_edital(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.nome[0]).to.contains(
-					'Este campo não pode ser em branco',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -181,7 +181,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			cy.cadastrar_produto_edital(dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.ativo[0]).to.contains(
-					'Este campo não pode ser em branco',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -286,8 +286,8 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			var uuid = '1c3a8300-d963-49fb-a322-dccb6e06bcdd/'
 			cy.atualizar_produto_edital(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.tipo_produto).to.contains(
-					'"TERCEIRA" não é um escolha válido.',
+				expect(response.body.tipo_produto[0]).to.contains(
+					'TERCEIRA" não é um escolha válida.',
 				)
 			})
 		})
@@ -314,7 +314,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			cy.atualizar_produto_edital(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.nome[0]).to.contains(
-					'Este campo não pode ser em branco',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -341,7 +341,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			cy.atualizar_produto_edital(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.ativo[0]).to.contains(
-					'Este campo não pode ser em branco',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -409,8 +409,8 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			var uuid = 'b38437a5-ec30-406a-84cf-be4109a8651a/'
 			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
-				expect(response.body.tipo_produto).to.contains(
-					'"TERCEIRA" não é um escolha válido.',
+				expect(response.body.tipo_produto[0]).to.contains(
+					'\"TERCEIRA\" não é um escolha válida.',
 				)
 			})
 		})
@@ -425,7 +425,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.nome[0]).to.contains(
-					'Este campo não pode ser em branco',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
@@ -440,7 +440,7 @@ describe('Validar rotas de cadastro de produtos edital da aplicação SIGPAE', (
 			cy.atualizar_produto_edital_patch(uuid, dados_teste).then((response) => {
 				expect(response.status).to.eq(400)
 				expect(response.body.ativo[0]).to.contains(
-					'Este campo não pode ser em branco',
+					'Este campo não pode estar em branco.',
 				)
 			})
 		})
