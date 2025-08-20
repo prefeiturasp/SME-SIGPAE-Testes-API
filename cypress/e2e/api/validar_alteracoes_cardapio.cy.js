@@ -547,7 +547,7 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(
 					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
 						.cancelado[0],
-				).to.eq('Must be a valid boolean.')
+				).to.eq('Deve ser um valor booleano válido.')
 			})
 		})
 
@@ -669,7 +669,7 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(
 					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
 						.cancelado_por[0],
-				).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
+				).to.eq('Tipo incorreto. Esperava valor pk, recebeu str.')
 			})
 		})
 
@@ -698,7 +698,7 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(
 					response.allRequestResponses[0]['Response Body'].datas_intervalo[0]
 						.cancelado_por[0],
-				).to.eq('Tipo incorreto. Esperado valor pk, recebeu str.')
+				).to.eq('Tipo incorreto. Esperava valor pk, recebeu str.')
 			})
 		})
 
@@ -727,7 +727,7 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(
 					response.allRequestResponses[0]['Response Body']
 						.foi_solicitado_fora_do_prazo[0],
-				).to.eq('Must be a valid boolean.')
+				).to.eq('Deve ser um valor booleano válido.')
 			})
 		})
 
@@ -756,7 +756,7 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(
 					response.allRequestResponses[0]['Response Body']
 						.terceirizada_conferiu_gestao[0],
-				).to.eq('Must be a valid boolean.')
+				).to.eq('Deve ser um valor booleano válido.')
 			})
 		})
 
@@ -785,7 +785,7 @@ describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
 				expect(
 					response.allRequestResponses[0]['Response Body']
 						.eh_alteracao_com_lanche_repetida[0],
-				).to.eq('Must be a valid boolean.')
+				).to.eq('Deve ser um valor booleano válido.')
 			})
 		})
 
