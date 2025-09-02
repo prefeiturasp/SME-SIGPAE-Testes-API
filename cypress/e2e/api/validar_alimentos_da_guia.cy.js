@@ -68,7 +68,7 @@ describe('Validar rotas de alimentos da guia da aplicação SIGPAE', () => {
 
 		it('Validar que um usuário sem permissão não pode acessar o endpoint', () => {
 			id = ''
-			usuario = Cypress.config('usuario_coordenador_logistica')
+			usuario = Cypress.config('usuario_diretor_ue')
 			senha = Cypress.config('senha')
 			cy.autenticar_login(usuario, senha)
 			cy.validar_alimentos_da_guia(id).then((response) => {
