@@ -4,13 +4,13 @@ const { validar_dia_semana } = require('../../support/utils/data_utils')
 var data_atual = dayjs()
 
 describe('Validar rotas de alteracoes cardapio da aplicação SIGPAE', () => {
-	var usuario = Cypress.config('usuario_coordenador_logistica')
+	var usuario = Cypress.config('usuario_diretor_ue')
 	var senha = Cypress.config('senha')
 	before(() => {
 		cy.autenticar_login(usuario, senha)
 	})
 
-	context('Casos de teste para a rota api/alteracoes_cardapio/', () => {
+	context.only('Casos de teste para a rota api/alteracoes_cardapio/', () => {
 		it('Validar GET de alterações cardápio com sucesso', () => {
 			var id = ''
 			cy.validar_alteracoes_cardapio(id).then((response) => {
