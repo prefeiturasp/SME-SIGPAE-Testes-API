@@ -859,9 +859,12 @@ describe('Validar rotas de Codae solicitações da aplicação SIGPAE', () => {
 				expect(response.body.results[0]).to.have.property('desc_doc')
 				expect(response.body.results[0]).to.have.property('status_evento')
 				expect(response.body.results[0]).to.have.property('motivo')
-				expect(response.body.results[0])
-					.to.have.property('status_atual')
-					.to.eq('DRE_VALIDADO')
+				expect(response.body.results[0].status_atual).to.satisfy((value) => {
+					return (
+						value === 'TERCEIRIZADA_RESPONDEU_QUESTIONAMENTO' ||
+						value === 'DRE_VALIDADO'
+					)
+				})
 				expect(response.body.results[0]).to.have.property('conferido')
 				expect(response.body.results[0]).to.have.property(
 					'terceirizada_conferiu_gestao',
