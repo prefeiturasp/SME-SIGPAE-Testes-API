@@ -20,6 +20,7 @@ import './commands_api/commands_dre_simplissima'
 import './commands_api/commands_editais'
 import './commands_api/commands_editais_contratos'
 import './commands_api/commands_escola_solicitacoes'
+import './commands_api/commands_escola_simplissima'
 
 import './commands_ui/commands_login'
 import './commands_ui/commands_globais'
